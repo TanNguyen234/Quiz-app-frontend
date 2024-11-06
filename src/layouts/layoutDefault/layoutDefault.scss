@@ -1,15 +1,51 @@
 .layout-default {
+    min-width: 100vh;
     &__sider {
         height: 100vh;
+        line-height: 120;
+        .ant-menu-title-content {
+            overflow: visible !important;
+            text-overflow: initial !important;
+        }
     }
+
+    &__header {
+        text-align: 'center';
+        color: '#fff';
+        height: 64;
+        padding-inline: 48;
+        line-height: '64px';
+    }
+
 
     &__logo {
         display: flex;
         justify-content: center;
         align-items: center;
         margin: 10px 0 5px;
+
         img {
             width: 30%;
+        }
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+
+        &--box {
+            margin-right: 10px;
+            
+            a {
+                font-size: 14px;
+                margin-right: 10px;
+                color: #fff;
+                text-decoration: none;
+                background-color: #001529;
+                transition: all 0.2s, background 0s;
+                padding: 5px;
+                border-radius: 5px;
+            }
         }
     }
 }
