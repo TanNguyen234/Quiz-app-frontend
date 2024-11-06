@@ -1,15 +1,19 @@
 import { Card, Row, Col } from "antd";
 import Meta from "antd/es/card/Meta";
+import './home.scss'
+import { NavLink } from "react-router-dom";
 
 function Home() {
   return (
     <>
-      Trang web trắc nghiệm của chúng tôi cung cấp các bài kiểm tra kiến thức
+      <p className="home__title"> Trang web trắc nghiệm của chúng tôi cung cấp các bài kiểm tra kiến thức
       trong nhiều công nghệ khác nhau và hơn thế nữa. Hãy tham gia để thử thách
-      bản thân và củng cố kiến thức của bạn!
+      bản thân và củng cố kiến thức của bạn!</p>
       <Row gutter={16}>
         <Col span={5}>
+          <NavLink to="/topics/:slug">
           <Card
+           className="home__card--1"
             hoverable
             style={{
               width: 240,
@@ -23,9 +27,11 @@ function Home() {
           >
             <Meta title="NodeJS" />
           </Card>
+          </NavLink>
         </Col>
         <Col span={5}>
           <Card
+            className="home__card--2"
             hoverable
             style={{
               width: 240,
@@ -42,6 +48,7 @@ function Home() {
         </Col>
         <Col span={5}>
           <Card
+            className="home__card--3"
             hoverable
             style={{
               width: 240,
@@ -58,6 +65,7 @@ function Home() {
         </Col>
         <Col span={4}>
           <Card
+            className="home__card--4"
             hoverable
             style={{
               width: 240,

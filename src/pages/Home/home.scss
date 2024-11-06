@@ -1,0 +1,43 @@
+@-webkit-keyframes rotate-hor-center {
+  0% {
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+  }
+  100% {
+    -webkit-transform: rotateX(-360deg);
+    transform: rotateX(-360deg);
+  }
+}
+@keyframes rotate-hor-center {
+  0% {
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+  }
+  100% {
+    -webkit-transform: rotateX(-360deg);
+    transform: rotateX(-360deg);
+  }
+}
+
+@mixin animation-card($delay) {
+  -webkit-animation: rotate-hor-center $delay
+    cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  animation: rotate-hor-center $delay cubic-bezier(0.455, 0.03, 0.515, 0.955)
+    both;
+}
+.layout-default__main {
+  .home {
+    &__title {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    &__card {
+      @for $i from 1 to 5 { //-[1:5) <=> [1:4]
+        &--#{$i} {
+            @include animation-card(#{$i*0.1}s); /* No delay */
+        }
+      }
+    }
+  }
+}
