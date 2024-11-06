@@ -127,15 +127,15 @@ function LayoutDefault() {
           width={isExpanded ? "20%" : "12%"}
           onClick={handleClick}
         >
+          <NavLink to="/">
           <div className="layout-default__logo">
-            <NavLink to="/">
               <img
                 className="aligh-center"
                 src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
                 alt="logo"
               />
-            </NavLink>
           </div>
+          </NavLink>
           <Menu
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["1-1"]}
