@@ -155,7 +155,7 @@ function LayoutDefault() {
           >
             <Button
               type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              icon={collapsed ? <MenuUnfoldOutlined style={{fill: '#fff'}} /> : <MenuFoldOutlined />}
               onClick={handleCollapse}
               style={{
                 fontSize: "16px",

@@ -1,8 +1,47 @@
+$bg-2: #0B0C10;
+$text: #1F2833;
+$text-2: #C5C6C7;
+$logo: #66FCF1;
+$border: #45A29E;
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    color: $text-2;
+}
+
 .layout-default {
     min-width: 100vh;
+    svg {
+        fill: $logo;
+    }
     &__sider {
+        color: $text-2;
+        background: $bg-2;
         height: 100vh;
         line-height: 120;
+        .ant-menu {
+            &-item {
+                padding-left: 28px;
+                width: 100%;
+                margin: 0;
+            }
+            background: $bg-2;
+            li {
+                color: $text-2;
+                border-radius: 0;
+                background: $text;
+                &:hover {
+                    background: $bg-2;
+                }
+            }
+        }
+        .ant-menu-submenu-title {
+            color: $text-2 !important;
+            margin-bottom: 10px;
+        }
         .ant-menu-title-content {
             overflow: visible !important;
             text-overflow: initial !important;
@@ -11,10 +50,31 @@
 
     &__header {
         text-align: 'center';
-        color: '#fff';
+        color: $text-2;
         height: 64;
         padding-inline: 48;
         line-height: '64px';
+        display: flex;
+        justify-content: space-between;
+
+        svg {
+            fill: $text;
+        }
+
+        &--box {
+            margin-right: 10px;
+            
+            a {
+                font-size: 14px;
+                margin-right: 10px;
+                color: #fff;
+                text-decoration: none;
+                background-color: $bg-2;
+                transition: all 0.2s, background 0s;
+                padding: 5px 7px;
+                border-radius: 5px;
+            }
+        }
     }
 
 
@@ -26,26 +86,6 @@
 
         img {
             width: 30%;
-        }
-    }
-
-    &__header {
-        display: flex;
-        justify-content: space-between;
-
-        &--box {
-            margin-right: 10px;
-            
-            a {
-                font-size: 14px;
-                margin-right: 10px;
-                color: #fff;
-                text-decoration: none;
-                background-color: #001529;
-                transition: all 0.2s, background 0s;
-                padding: 5px;
-                border-radius: 5px;
-            }
         }
     }
 }
