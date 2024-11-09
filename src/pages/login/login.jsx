@@ -19,12 +19,15 @@ function Login() {
   return (
     <>
       <Form
-        className="login-form"
+        className="form"
         name="login"
         initialValues={{
           remember: true,
         }}
-      >
+      > 
+        <Form.Item>
+          <h2 className="form__title">Login Form</h2>
+        </Form.Item>
         <Form.Item
           name="email"
           rules={[
@@ -34,7 +37,7 @@ function Login() {
             },
           ]}
         >
-          <Input placeholder="Email" type="email" />
+          <Input className="form__input" placeholder="Email" type="email" />
         </Form.Item>
         <Form.Item
           name="password"
@@ -46,13 +49,14 @@ function Login() {
           ]}
         >
           <Input.Password
+            className="form__input"
             type="password"
             placeholder="password"
             hasFeedback
           />
         </Form.Item>
         <Form.Item>
-          <Button block type="primary" htmlType="submit">
+          <Button className="form__btn" block type="primary" htmlType="submit">
             Login
           </Button>
         </Form.Item>

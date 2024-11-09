@@ -71,8 +71,13 @@ body {
                 text-decoration: none;
                 background-color: $bg-2;
                 transition: all 0.2s, background 0s;
-                padding: 5px 7px;
+                padding: 6px 8px;
                 border-radius: 5px;
+
+                &:hover {
+                    background-color: $text;
+                    transition: 0.5;
+                }
             }
         }
     }
