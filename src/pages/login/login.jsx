@@ -18,6 +18,7 @@ function Login() {
 
   return (
     <>
+      <div style={{display: "flex", flexDirection: "row"}}>
       <Form
         className="form"
         name="login"
@@ -26,7 +27,7 @@ function Login() {
         }}
       > 
         <Form.Item>
-          <h2 className="form__title">Login Form</h2>
+          <h2 className="form__title">Đăng nhập</h2>
         </Form.Item>
         <Form.Item
           name="email"
@@ -56,11 +57,17 @@ function Login() {
           />
         </Form.Item>
         <Form.Item>
-          <Button className="form__btn" block type="primary" htmlType="submit">
-            Login
+          <Button className="form__btn" block htmlType="submit">
+            Đăng nhập
           </Button>
         </Form.Item>
       </Form>
+      <button className="form__content">
+        <h2> Chào mừng trở lại</h2>
+        <p>Chúng tôi rất vui khi bạn quay trở lại. Chúng tôi hy vọng bạn đã có một khoảng thời gian thật an toàn và vui vẻ </p>
+        <a href="/user/register"><div class="register-link">Bạn chưa có tài khoản? <span>Đăng Ký ngay</span></div></a>
+      </button>
+      </div>
     </>
   );
 }

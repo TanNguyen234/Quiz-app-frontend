@@ -1,3 +1,6 @@
+import { TransitionProvider } from '../context/TransitionContext';
+import TransitionComponent from '../components/transition';
+
 import FormLayout from "../layouts/formLayout";
 import LayoutDefault from "../layouts/layoutDefault";
 import Home from "../pages/Home";
@@ -7,24 +10,24 @@ import Register from "../pages/Register/register";
 export const routes = [
     {
         path: '/',
-        element: <LayoutDefault />,
+        element: <TransitionProvider><LayoutDefault /></TransitionProvider>,
         children: [
             {
                 path: '/',
-                element: <Home />
+                element: <TransitionComponent><Home /></TransitionComponent>
             }
         ]
     },
     {
-        element: <FormLayout />,
+        element: <TransitionProvider><FormLayout /></TransitionProvider>,
         children: [
             {   
                 path: '/user/register',
-                element: <Register />
+                element: <TransitionComponent><Register /></TransitionComponent>
             },
             {   
                 path: '/user/login',
-                element: <Login />
+                element: <TransitionComponent><Login /></TransitionComponent>
             }
         ]
     }

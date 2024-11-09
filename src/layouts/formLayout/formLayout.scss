@@ -1,8 +1,4 @@
-$bg-2: #0b0c10;
-$text: #1f2833;
-$text-2: #c5c6c7;
-$logo: #66fcf1;
-$border: #45a29e;
+@import '../../scss/variables';
 
 body {
     margin: 0;
@@ -17,21 +13,20 @@ body {
     justify-content: center; /* Căn giữa theo chiều ngang */
     align-items: center;     /* Căn giữa theo chiều dọc */
     min-height: 600px;       /* Chiều cao tối thiểu là toàn màn hình */
-    background-color: #f3f4f6; /* Màu nền nhẹ nhàng */
+    background-color: $text-2 !important; /* Màu nền nhẹ nhàng */
   }
 
 .form-layout {
+  background: $text-2;
   &__main {
-    width: 300px;
-    height: 400px;
+    background: $text-2;
     padding: 0 !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: $bg-2;
-    padding: 20px;
   }
   &__header {
+    background: rgb(254, 250, 250) !important;
     text-align: "center";
     color: $text-2;
     height: auto;
@@ -53,7 +48,7 @@ body {
         margin-right: 10px;
         color: #fff;
         text-decoration: none;
-        background-color: $bg-2;
+        background-color: $text;
         transition: all 0.2s background 0s;
         padding: 6px 8px;
         border-radius: 5px;
@@ -75,5 +70,9 @@ body {
     img {
       width: 30%;
     }
+  }
+
+  &__footer {
+    background: rgb(254, 250, 250) !important;
   }
 }
