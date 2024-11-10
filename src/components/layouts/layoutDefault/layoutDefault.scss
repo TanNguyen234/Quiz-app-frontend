@@ -1,4 +1,4 @@
-@import '../../scss/variables.scss';
+@import '../../../assets//scss/variables.scss';
 
 body {
     margin: 0;
@@ -6,6 +6,7 @@ body {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
     color: $text-2;
+    background-color: #e5e5e5;
 }
 
 .layout-default {
@@ -45,8 +46,13 @@ body {
     }
 
     &__header {
-        text-align: 'center';
-        color: $text-2;
+        text-align: center;
+        color: $bg-2;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 10px 0;
+        background: #e5e5e5 !important;
+        background: fixed;
         height: 64;
         padding-inline: 48;
         line-height: '64px';
@@ -88,5 +94,22 @@ body {
         img {
             width: 30%;
         }
+    }
+
+    .ant-layout-content {
+        &__main {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__footer {
+        text-align: center;
+        color: $bg-2;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 10px 0;
+        background: #e5e5e5;
+        font-size: 14px;
     }
 }

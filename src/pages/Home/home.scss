@@ -1,44 +1,91 @@
-// @-webkit-keyframes rotate-hor-center {
-//   0% {
-//     -webkit-transform: rotateX(0);
-//     transform: rotateX(0);
-//   }
-//   100% {
-//     -webkit-transform: rotateX(-360deg);
-//     transform: rotateX(-360deg);
-//   }
-// }
-// @keyframes rotate-hor-center {
-//   0% {
-//     -webkit-transform: rotateX(0);
-//     transform: rotateX(0);
-//   }
-//   100% {
-//     -webkit-transform: rotateX(-360deg);
-//     transform: rotateX(-360deg);
-//   }
-// }
+@import "../../assets//scss/variables.scss";
 
-// @mixin animation-card($delay) {
-//   -webkit-animation: rotate-hor-center $delay
-//     cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-//   animation: rotate-hor-center $delay cubic-bezier(0.455, 0.03, 0.515, 0.955)
-//     both;
-// }
+.ant-layout-content {
+  height: auto !important;
+  padding: 0 !important;
+  background-color: #fefeff !important;
 
-// .layout-default__main {
-//   .home {
-//     &__title {
-//         font-size: 16px;
-//         font-weight: 500;
-//     }
+}
 
-//     &__card {
-//       @for $i from 1 to 5 { //-[1:5) <=> [1:4]
-//         &--#{$i} {
-//             @include animation-card(#{$i*0.1}s); /* No delay */
-//         }
-//       }
-//     }
-//   }
-// }
+.home {
+  padding: 80px 20px;
+  width: 100%;
+  height: auto;
+  background: linear-gradient(
+      45deg,
+      rgba(5, 5, 7, 0.9) 0%,
+      $bg-2 100%
+    ),
+    url('../../../public/images/bgHome.jpg')
+      center center no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  &__main {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-right: 10px;
+    text-align: center;
+  }
+
+  &__title {
+    color: #fefeff;
+  }
+
+  &__content {
+    font-size: 18px;
+    color: #fefeff;
+  }
+
+  &__btn {
+    background-color: transparent;
+    color: #fefeff;
+    border: 2px solid $text-2;
+    padding: 7px 25px 7px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+        transition: 0.6s;
+        font-weight: 600;
+        color: $bg-2;
+        background-color: #fff;
+        transition: 0.7s;
+      }
+  }
+
+  &__img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+
+      @keyframes move {
+        from {
+          transform: translateY(0);
+        }
+
+        to {
+          transform: translateY(20px);
+        }
+      }
+
+      width: 100%;
+      height: auto;
+      animation: infinite alternate linear 2s;
+      animation-name: move;
+    }
+  }
+}

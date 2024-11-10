@@ -1,4 +1,4 @@
-@import '../../scss/variables';
+@import '../../../assets//scss/variables.scss';
 
 body {
     margin: 0;
@@ -69,6 +69,13 @@ body {
 
     img {
       width: 30%;
+    }
+
+    span {
+      color: $bg-2;
+      font-size: 22px;
+      font-weight: 600;
+      margin-left: 10px;
     }
   }
 

@@ -1,8 +1,8 @@
 import { TransitionProvider } from '../context/TransitionContext';
 import TransitionComponent from '../components/transition';
 
-import FormLayout from "../layouts/formLayout";
-import LayoutDefault from "../layouts/layoutDefault";
+import FormLayout from "../components/layouts/formLayout";
+import LayoutDefault from "../components/layouts/layoutDefault";
 import Home from "../pages/Home";
 import Login from "../pages/login/login";
 import Register from "../pages/Register/register";

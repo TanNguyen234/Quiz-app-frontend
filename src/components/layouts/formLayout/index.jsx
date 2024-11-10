@@ -19,9 +19,10 @@ function FormLayout() {
           <div className="form-layout__logo">
               <img
                 className="aligh-center"
-                src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+                src="/images/logo.svg"
                 alt="logo"
               />
+              <span>FOXY</span>
           </div>
           </NavLink>
           <span className="form-layout__header--box">

@@ -119,9 +119,8 @@ function LayoutDefault() {
       <Layout className="layout-default">
         <Sider
           className="layout-default__sider"
-          trigger={true}
+          trigger={null}
           breakpoint="lg"
-          collapsedWidth="0"
           collapsible
           collapsed={collapsed}
           width={isExpanded ? "20%" : "12%"}
@@ -131,7 +130,7 @@ function LayoutDefault() {
           <div className="layout-default__logo">
               <img
                 className="aligh-center"
-                src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+                src="/images/logo.svg"
                 alt="logo"
               />
           </div>

@@ -1,11 +1,21 @@
-import './home.scss'
+import "./home.scss";
 
 function Home() {
   return (
     <>
-      <p className="home__title"> Trang web trắc nghiệm của chúng tôi cung cấp các bài kiểm tra kiến thức
-      trong nhiều công nghệ khác nhau và hơn thế nữa. Hãy tham gia để thử thách
-      bản thân và củng cố kiến thức của bạn!</p>
+      <div className="home">
+        <div className="home__main">
+        <h1 className="home__title">Chào mừng đến với Website Trắc Nghiệm Lập Trình</h1>
+        <p className="home__content">
+          Mỗi câu hỏi là một cơ hội để học hỏi – Cùng kiểm tra kiến thức của bạn
+          ngay hôm nay!
+        </p>
+        <a href="/topics"><button className="home__btn">Bắt đầu ngay</button></a>
+        </div>
+        <div className="home__img">
+          <img src="/images/home.png" alt="Trắc nghiệm lập trình" />
+        </div>
+      </div>
     </>
   );
 }
