@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
 import "./login.scss"
+import { NavLink } from "react-router-dom";
 
 function Login() {
   const form = document.querySelector("#login");
@@ -23,14 +24,14 @@ function Login() {
         style={{ display: "flex", flexDirection: "row" }}
       >
         <Form
-          className="form"
+          className="form-login"
           name="login"
           initialValues={{
             remember: true,
           }}
         >
           <Form.Item>
-            <h2 className="form__title">Đăng nhập</h2>
+            <h2 className="form-login__title">Đăng nhập</h2>
           </Form.Item>
           <Form.Item
             name="email"
@@ -41,7 +42,7 @@ function Login() {
               },
             ]}
           >
-            <Input className="form__input" placeholder="Email" type="email" />
+            <Input className="form-login__input" placeholder="Email" type="email" />
           </Form.Item>
           <Form.Item
             name="password"
@@ -53,29 +54,29 @@ function Login() {
             ]}
           >
             <Input.Password
-              className="form__input"
+              className="form-login__input"
               type="password"
               placeholder="password"
               hasFeedback
             />
           </Form.Item>
           <Form.Item>
-            <Button className="form__btn" block htmlType="submit">
+            <Button className="form-login__btn" block htmlType="submit">
               Đăng nhập
             </Button>
           </Form.Item>
         </Form>
-        <button className="form__content">
+        <button className="form-login__content">
           <h2> Chào mừng trở lại</h2>
           <p>
             Chúng tôi rất vui khi bạn quay trở lại. Chúng tôi hy vọng bạn đã có
             một khoảng thời gian thật an toàn và vui vẻ{" "}
           </p>
-          <a href="/user/register">
+          <NavLink to="/user/register">
             <div class="register-link">
               Bạn chưa có tài khoản? <span>Đăng Ký ngay</span>
             </div>
-          </a>
+          </NavLink>
         </button>
       </div>
     </>
