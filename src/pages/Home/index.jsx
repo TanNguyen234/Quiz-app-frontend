@@ -1,6 +1,18 @@
+import { useEffect, useState } from "react";
 import "./home.scss";
 
 function Home() {
+  // const [value, setValue] = useState([])
+
+  // useEffect(() => {
+  //  fetch('http://localhost:3001/one')
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     setValue(data)
+  //     console.log(value)
+  //   })
+  // }, [value])
+
   return (
     <>
       <div className="home">
