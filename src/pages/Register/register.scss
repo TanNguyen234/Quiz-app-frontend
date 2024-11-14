@@ -24,7 +24,7 @@
         color: #fff;
         background: $bg-2 !important;
 
-        .from-register__title {
+        .form-register__title {
             color: #fff;
         }
     }
@@ -36,6 +36,7 @@
 
     &__input {
         background-color: #fff;
+        border-bottom: 1px solid $bg-2;
         outline: #fff;
         padding: 5px;
         width: 270px;
@@ -52,8 +53,9 @@
         width: 270px;
     }
 
-    &__input:has(input[type="password"]:focus) {
-        border: 1px solid $bg-2;
+    &__input:has(input[type="password"]:focus),
+    &__input:has(.ant-input-oulined:hover) {
+        border: 1px solid $bg-2 !important;
         transition: 0.5s;
     }
 
