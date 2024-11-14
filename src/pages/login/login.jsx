@@ -1,21 +1,43 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, Input } from "antd";
-import "./login.scss"
-import { NavLink } from "react-router-dom";
+import "./login.scss";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { post } from "../../untils/request";
+import { setCookie } from "../../helpers/cookie";
 
 function Login() {
-  const form = document.querySelector("#login");
-  if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = e.target.value[0].value;
-      const password = e.target.value[1].value;
-
-      if (!email || !password) {
-        alert("All fields are required");
-        return;
-      }
-    });
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    const form = document.querySelector("#login");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = e.target.elements[0].value;
+        const password = e.target.elements[1].value;
+        //Login
+        const options = {
+          email: email,
+          password: password,
+        };
+        const fetchApi = async () => {
+          const user = await post("user/login", options);
+          if(user.code === 200) {
+            setCookie("token", user.data.token);
+            navigate('/')
+          } else {
+             
+          }
+        };
+        fetchApi();
+        // Dọn dẹp sự kiện khi component unmount
+        return () => {
+          if (form) form.removeEventListener("submit", fetchApi);
+        };
+        //End Login
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -42,7 +64,11 @@ function Login() {
               },
             ]}
           >
-            <Input className="form-login__input" placeholder="Email" type="email" />
+            <Input
+              className="form-login__input"
+              placeholder="Email"
+              type="email"
+            />
           </Form.Item>
           <Form.Item
             name="password"

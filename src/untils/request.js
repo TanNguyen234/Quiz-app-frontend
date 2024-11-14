@@ -1,4 +1,4 @@
-export const API_DOMAIN = "http://localhost:8080/";
+export const API_DOMAIN = "http://localhost:3002/api/v1/";
 
 export const get = async (path) => {
     const res = await fetch(API_DOMAIN + path);
@@ -7,6 +7,7 @@ export const get = async (path) => {
 }
 
 export const post = async (path, options) => {
+    console.log(API_DOMAIN + path)
     const response = await fetch(API_DOMAIN + path, {
         method: "POST",
         headers: {
