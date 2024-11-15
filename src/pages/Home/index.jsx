@@ -1,17 +1,10 @@
-import { useEffect, useState } from "react";
 import "./home.scss";
+import { useSelector } from "react-redux";
 
 function Home() {
   // const [value, setValue] = useState([])
-
-  // useEffect(() => {
-  //  fetch('http://localhost:3001/one')
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     setValue(data)
-  //     console.log(value)
-  //   })
-  // }, [value])
+  const reducer = useSelector(user => user)
+  console.log(reducer)
 
   return (
     <>

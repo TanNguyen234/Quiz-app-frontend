@@ -2,37 +2,27 @@
 import { Button, Form, Input } from "antd";
 import "./login.scss";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { useEffect } from "react";
-import { post } from "../../untils/request";
-import { setCookie } from "../../helpers/cookie";
+import { login } from "../../actions/user";
 
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   useEffect(() => {
     const form = document.querySelector("#login");
     if (form) {
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const email = e.target.elements[0].value;
         const password = e.target.elements[1].value;
         //Login
-        const options = {
-          email: email,
-          password: password,
-        };
-        const fetchApi = async () => {
-          const user = await post("user/login", options);
-          if(user.code === 200) {
-            setCookie("token", user.data.token);
-            navigate('/')
-          } else {
-             
-          }
-        };
-        fetchApi();
+        await dispatch(login(email, password, navigate));
+
         // Dọn dẹp sự kiện khi component unmount
         return () => {
-          if (form) form.removeEventListener("submit", fetchApi);
+          if (form) form.removeEventListener("submit");
         };
         //End Login
       });
