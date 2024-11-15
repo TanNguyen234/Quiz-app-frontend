@@ -1,4 +1,4 @@
-import { setCookie } from "../helpers/cookie";
+import { getCookie, setCookie } from "../helpers/cookie";
 import { post } from "../untils/request";
 
 export const register = (fullName, email, password) => {
@@ -22,29 +22,33 @@ export const login = (email, password, navigate) => async (dispatch) => {
             const { id, fullName, token } = user.data
             setCookie("token", token);
             const object = {
+              type: "LOGIN",
               id: id,
               fullName: fullName,
               token: token,
-              type: "LOGIN_SUCCESS",
+              status: "LOGIN_SUCCESS",
             }
             dispatch(object);
             navigate('/')
 
           } else {   
             dispatch({
-                type: "LOGIN_FAILURE"            
+                type: "LOGIN",
+                status: "LOGIN_FAILURE"            
             });
           }
     } catch (error) {
         dispatch({
-            type: "LOGIN_FAILURE",
+            type: "LOGIN",
+            status: "LOGIN_FAILURE",
             message: error
         });
     }
 }
 
 export const autoLogin = (status) => {
-    console.log(status)
+    const token = getCookie('token');
+    
     return {
         type: "AUTO_LOGIN",
         status: status

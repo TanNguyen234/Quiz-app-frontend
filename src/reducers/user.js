@@ -1,13 +1,18 @@
-const userReducer = (state = {}, action) => {
-    console.log(state, action)
+const initialState = {
+    id: null,
+    fullName: null,
+    token: null,
+    state: false,
+};
 
+const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case "REGISTER":
            
            break;
 
         case "LOGIN":
-            if(action.type === "LOGIN_SUCCESS") {
+            if(action.status === "LOGIN_SUCCESS") {
                return {
                 ...state,
                 id: action.id,
@@ -16,6 +21,7 @@ const userReducer = (state = {}, action) => {
                 state: true,
                }
             } else {
+                console.log('fail reducer')
                 return {
                     ...state,
                     state: false
