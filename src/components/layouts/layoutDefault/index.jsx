@@ -16,6 +16,8 @@ import {
   AuditOutlined,
 } from "@ant-design/icons";
 import "./layoutDefault.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../actions/user";
 
 const { Header, Content, Footer } = Layout;
 
@@ -88,6 +90,10 @@ const items = [
 ];
 
 function LayoutDefault() {
+  const dispatch = useDispatch()
+  const isLogin = useSelector(state => state.userReducer.state);
+  console.log(isLogin)
+
   const [collapsed, setCollapsed] = useState(false);
   const [isExpanded, setExpended] = useState(false);
 
@@ -163,13 +169,13 @@ function LayoutDefault() {
               }}
             />
             <span className="layout-default__header--box">
-              {true ? (
+              {isLogin ? (
+                  <NavLink onClick={() => dispatch(logout())} to="/">Đăng xuất</NavLink>
+              ) : (
                 <>
                   <NavLink to="/user/login">Đăng nhập</NavLink>
                   <NavLink to="/user/register">Đăng ký</NavLink>
-                </>
-              ) : (
-                <NavLink to="/user/logout">Đăng xuất</NavLink>
+                </>              
               )}
             </span>
           </Header>

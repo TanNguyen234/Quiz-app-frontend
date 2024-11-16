@@ -6,6 +6,7 @@ import LayoutDefault from "../components/layouts/layoutDefault";
 import Home from "../pages/Home";
 import Login from "../pages/login/login";
 import Register from "../pages/Register/register";
+import PrivateRoute from '../components/privateRoutes/indes';
 
 export const routes = [
     {
@@ -15,6 +16,19 @@ export const routes = [
             {
                 path: '/',
                 element: <TransitionComponent><Home /></TransitionComponent>
+            },
+            {
+                element: <PrivateRoute />,
+                children: [
+                    {
+                        path: '/profile',
+                        element: <TransitionComponent>ok</TransitionComponent>
+                    }
+                ]
+            },
+            {
+                path: '/topics',
+                element: <TransitionComponent>ok</TransitionComponent>
             }
         ]
     },

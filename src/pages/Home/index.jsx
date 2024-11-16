@@ -1,10 +1,6 @@
 import "./home.scss";
-import { useSelector } from "react-redux";
 
 function Home() {
-  const user = useSelector(state => state.userReducer);
-  console.log(user)
-
   return (
     <>
       <div className="home">

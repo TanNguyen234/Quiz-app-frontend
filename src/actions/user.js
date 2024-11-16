@@ -1,5 +1,5 @@
-import { getCookie, setCookie } from "../helpers/cookie";
-import { post } from "../untils/request";
+import { deleteCookie, setCookie } from "../helpers/cookie";
+import { auth, post } from "../untils/request";
 
 export const register = (fullName, email, password) => {
     console.log(fullName, email, password)
@@ -46,17 +46,38 @@ export const login = (email, password, navigate) => async (dispatch) => {
     }
 }
 
-export const autoLogin = (status) => {
-    const token = getCookie('token');
-    
-    return {
-        type: "AUTO_LOGIN",
-        status: status
-    }
+export const autoLogin = (token) => async (dispatch) => {
+    try {
+        const user = await auth("user/detail", token);
+
+          if(user.code === 200) {     
+            const { id, fullName, token } = user.data
+            setCookie("token", token);
+            const object = {
+              type: "LOGIN",
+              id: id,
+              fullName: fullName,
+              token: token,
+              status: "LOGIN_SUCCESS",
+            }
+            dispatch(object);
+          } else {   
+            dispatch({
+                type: "LOGIN",
+                status: "LOGIN_FAILURE"            
+            });
+          }
+    } catch (error) {
+        dispatch({
+            type: "LOGIN",
+            status: "LOGIN_FAILURE",
+            message: error
+        });  
+    } 
 }
 
 export const logout = () => {
-    console.log("Logged out")
+    deleteCookie("token");
     return {
         type: "LOGOUT"
     }

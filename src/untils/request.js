@@ -1,5 +1,15 @@
 export const API_DOMAIN = "http://localhost:3002/api/v1/";
 
+export const auth = async (path, token) => {
+    const res = await fetch(API_DOMAIN + path, {
+    method: 'GET',
+    headers: {
+        Authorization: `Bearer ${token}`
+    }})
+    const data = await res.json();
+    return data;
+};
+
 export const get = async (path) => {
     const res = await fetch(API_DOMAIN + path);
     const data = await res.json();
