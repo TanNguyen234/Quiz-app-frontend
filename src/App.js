@@ -18,8 +18,6 @@ function App() {
 
   if(token) {
     dispatch(autoLogin(token));
-  } else {
-    dispatch(logout());
   }
 
   return (

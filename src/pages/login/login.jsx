@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { useEffect } from "react";
 import { login } from "../../actions/user";
+import { userValidationLogin } from "../../validates/user.validate";
 
 function Login() {
   const dispatch = useDispatch();
@@ -17,6 +18,11 @@ function Login() {
         e.preventDefault();
         const email = e.target.elements[0].value;
         const password = e.target.elements[1].value;
+        
+        if(userValidationLogin(email, password)) {
+          alert("Email và mật khẩu không đúng!");
+          return;
+        }
         //Login
         await dispatch(login(email, password, navigate));
 

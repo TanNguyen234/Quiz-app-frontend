@@ -20,7 +20,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
 
           if(user.code === 200) {     
             const { id, fullName, token } = user.data
-            setCookie("token", token);
+            setCookie("token", token, 30);
             const object = {
               type: "LOGIN",
               id: id,
@@ -52,7 +52,7 @@ export const autoLogin = (token) => async (dispatch) => {
 
           if(user.code === 200) {     
             const { id, fullName, token } = user.data
-            setCookie("token", token);
+            setCookie("token", token, 30);
             const object = {
               type: "LOGIN",
               id: id,

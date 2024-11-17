@@ -1,25 +1,23 @@
 import { Button, Form, Input } from "antd";
 import "./register.scss";
 import { NavLink } from "react-router-dom";
+import { userValidationRegister } from "../../validates/user.validate";
 
 function Register() {
   const form = document.querySelector("#register");
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const email = e.target.value[0].value;
-      const password = e.target.value[1].value;
-      const confirmPassword = e.target.value[2].value;
+      const fullName = e.target.value[0].value;
+      const email = e.target.value[1].value;
+      const password = e.target.value[2].value;
+      const confirmPassword = e.target.value[3].value;
 
-      if (password !== confirmPassword) {
-        alert("Passwords do not match");
+      if (userValidationRegister(fullName, email, password, confirmPassword)) {
+        alert('Please fill all the required fields')
         return;
       }
-
-      if (!email || !password || !confirmPassword) {
-        alert("All fields are required");
-        return;
-      }
+      
     });
   }
 
