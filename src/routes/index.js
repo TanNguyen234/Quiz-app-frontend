@@ -3,10 +3,12 @@ import TransitionComponent from '../components/transition';
 
 import FormLayout from "../components/layouts/formLayout";
 import LayoutDefault from "../components/layouts/layoutDefault";
+
 import Home from "../pages/Home";
 import Login from "../pages/login/login";
 import Register from "../pages/Register/register";
 import PrivateRoute from '../components/privateRoutes/indes';
+import Topics from '../pages/Topics/topic';
 
 export const routes = [
     {
@@ -28,7 +30,7 @@ export const routes = [
             },
             {
                 path: '/topics',
-                element: <TransitionComponent>ok</TransitionComponent>
+                element: <TransitionComponent><Topics /></TransitionComponent>
             }
         ]
     },

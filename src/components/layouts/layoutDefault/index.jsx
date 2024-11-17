@@ -92,7 +92,6 @@ const items = [
 function LayoutDefault() {
   const dispatch = useDispatch()
   const isLogin = useSelector(state => state.userReducer.state);
-  console.log(isLogin)
 
   const [collapsed, setCollapsed] = useState(false);
   const [isExpanded, setExpended] = useState(false);

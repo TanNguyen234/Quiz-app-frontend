@@ -21,7 +21,7 @@ export const register =
 
       dispatch(object);
       navigate("/");
-      
+
       return {
         success: true,
       };
