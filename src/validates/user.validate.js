@@ -1,16 +1,18 @@
 export const userValidationLogin = (email, password) => {
     if(!email || !password) {
-        return false;
+        return true;
     }
-    return true
+    return false
 }
 
 export const userValidationRegister = (fullName, email, password, conformPassword) => {
     if(!fullName ||!email ||!password ||!conformPassword) {
-        return false;
+        return true;
     }
+
     if(password !== conformPassword) {
-        return false;
+        return true;
     }
-    return true
+
+    return false
 }

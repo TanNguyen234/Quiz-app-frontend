@@ -1,8 +1,20 @@
 const userReducer = (state = {}, action) => {
     switch (action.type) {
         case "REGISTER":
-           
-           break;
+            if(action.status === "REGISTER_SUCCESS") {
+                return {
+                 ...state,
+                 id: action.id,
+                 fullName: action.fullName,
+                 token: action.token,
+                 state: true,
+                }
+             } else {
+                 return {
+                     ...state,
+                     state: false
+                 }
+             }
 
         case "LOGIN":
             if(action.status === "LOGIN_SUCCESS") {

@@ -7,7 +7,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useGSAP } from '@gsap/react';
 
 import { useDispatch } from 'react-redux';
-import { autoLogin, logout } from './actions/user';
+import { autoLogin } from './actions/user';
 import { getCookie } from './helpers/cookie';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);

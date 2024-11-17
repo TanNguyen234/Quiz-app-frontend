@@ -1,26 +1,28 @@
 import { Button, Form, Input } from "antd";
 import "./register.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { userValidationRegister } from "../../validates/user.validate";
+import { useDispatch } from "react-redux";
+import { register } from "../../actions/user";
 
 function Register() {
-  const form = document.querySelector("#register");
-  if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const fullName = e.target.value[0].value;
-      const email = e.target.value[1].value;
-      const password = e.target.value[2].value;
-      const confirmPassword = e.target.value[3].value;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-      if (userValidationRegister(fullName, email, password, confirmPassword)) {
-        alert('Please fill all the required fields')
-        return;
-      }
-      
-    });
+  const onFinish = async (values) => {
+    const { fullName, email, password, confirmPassword } = values;
+
+    if (userValidationRegister(fullName, email, password, confirmPassword)) {
+      alert('Please fill all the required fields')
+      return;
+    }
+    
+    const result = await dispatch(register(fullName, email, password, navigate))
+
+    if(!result.success) {
+      alert(result.message)
+    }
   }
-
   return (
     <>
       <div
@@ -40,6 +42,7 @@ function Register() {
           </NavLink>
         </button>
         <Form
+          onFinish={onFinish}
           className="form-register"
           name="register"
           initialValues={{

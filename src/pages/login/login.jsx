@@ -2,38 +2,29 @@
 import { Button, Form, Input } from "antd";
 import "./login.scss";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { login } from "../../actions/user";
 import { userValidationLogin } from "../../validates/user.validate";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  useEffect(() => {
-    const form = document.querySelector("#login");
-    if (form) {
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = e.target.elements[0].value;
-        const password = e.target.elements[1].value;
-        
-        if(userValidationLogin(email, password)) {
-          alert("Email và mật khẩu không đúng!");
-          return;
-        }
-        //Login
-        await dispatch(login(email, password, navigate));
 
-        // Dọn dẹp sự kiện khi component unmount
-        return () => {
-          if (form) form.removeEventListener("submit");
-        };
-        //End Login
-      });
+  const onFinish = async (values) => {
+    const { email, password } = values;
+
+    if (userValidationLogin(email, password)) {
+      alert("Email và mật khẩu không đúng!");
+      return;
     }
-  }, []);
+
+    //Login
+    const result = await dispatch(login(email, password, navigate));
+
+    if (!result.success) {
+      alert(result.message);
+    }
+  };
 
   return (
     <>
@@ -47,6 +38,7 @@ function Login() {
           initialValues={{
             remember: true,
           }}
+          onFinish={onFinish}
         >
           <Form.Item>
             <h2 className="form-login__title">Đăng nhập</h2>
