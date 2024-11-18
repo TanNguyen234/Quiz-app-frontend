@@ -23,6 +23,8 @@ function Login() {
 
     if (!result.success) {
       alert(result.message);
+    } else {
+      localStorage.setItem('isAuthenticated', JSON.stringify(true))
     }
   };
 

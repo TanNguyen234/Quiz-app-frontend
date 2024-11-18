@@ -17,7 +17,7 @@ function App() {
   const token = getCookie('token');
 
   if(token) {
-   dispatch(autoLogin(token));
+    dispatch(autoLogin(token));
   }
 
   return (

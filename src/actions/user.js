@@ -1,4 +1,4 @@
-import { deleteCookie, setCookie } from "../helpers/cookie";
+import { deleteAllCookie, setCookie } from "../helpers/cookie";
 import { auth, post } from "../untils/request";
 
 export const register =
@@ -85,7 +85,6 @@ export const autoLogin = (token) => async (dispatch) => {
 
     if (user.code === 200) {
       const { id, fullName, token } = user.data;
-      setCookie("token", token, 30);
       const object = {
         type: "LOGIN",
         id: id,
@@ -115,7 +114,7 @@ export const autoLogin = (token) => async (dispatch) => {
 };
 
 export const logout = () => {
-  deleteCookie("token");
+  deleteAllCookie();
   return {
     type: "LOGOUT",
   };

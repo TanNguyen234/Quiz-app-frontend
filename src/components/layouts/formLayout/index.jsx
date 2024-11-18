@@ -1,10 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { Layout } from "antd";
 import "./formLayout.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../actions/user";
 
 const { Header, Content, Footer } = Layout;
 
 function FormLayout() {
+  const dispatch = useDispatch();
+  const state = useSelector(state => state.userReducer.state)
   return (
     <>
       <Layout className="form-layout">
@@ -26,13 +30,13 @@ function FormLayout() {
           </div>
           </NavLink>
           <span className="form-layout__header--box">
-            {true ? (
+            {state ? (
+              <NavLink onClick={() => dispatch(logout())}>Đăng xuất</NavLink>
+            ) : (
               <>
                 <NavLink to="/user/login">Đăng nhập</NavLink>
                 <NavLink to="/user/register">Đăng ký</NavLink>
               </>
-            ) : (
-              <NavLink to="/user/logout">Đăng xuất</NavLink>
             )}
           </span>
         </Header>
