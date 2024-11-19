@@ -17,7 +17,6 @@ const userReducer = (state = {}, action) => {
              }
 
         case "LOGIN":
-            console.log("LOGIN", action)
             if(action.status === "LOGIN_SUCCESS") {
                return {
                 ...state,
@@ -33,7 +32,6 @@ const userReducer = (state = {}, action) => {
                 }
             }
         case "AUTO_LOGIN":
-            console.log("AUTO_LOGIN", action)
             if(action.status === "LOGIN_SUCCESS") {
                 return {
                  ...state,
@@ -50,7 +48,6 @@ const userReducer = (state = {}, action) => {
              }
         
         case "LOGOUT":
-            console.log("LOGOUT", action)
             localStorage.setItem('isAuthenticated', JSON.stringify(false));
             return {
                 ...state,

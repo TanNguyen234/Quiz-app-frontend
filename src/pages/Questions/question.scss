@@ -1,1 +1,69 @@
 @import '../../assets//scss/variables.scss';
+
+.question {
+    padding: 20px;
+
+    .ant-form-item {
+        &-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &-label {
+            text-align: left !important;
+        }
+
+        &-control {
+            flex: auto;
+        }
+    }
+
+    .ant-form-horizontal {
+        flex: auto !important;
+    }
+
+    .ant-radio-group {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    &__question {
+        label[title]{
+            font-weight: 600;
+            font-size: 18px;
+         }
+    }
+
+    &__item {
+        margin-bottom: 10px;
+        &--answer {
+            margin: 5px 0;
+
+            span {
+                font-weight: 500;
+                font-size: 16px;
+            }
+        }
+    }
+
+    &__title {
+       text-align: center;
+       font-size: 25px;
+       color: $bg-2
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__btn {
+        position: relative;
+        font-weight: 500;
+        font-size: 16px;
+        color: #fff;
+        background-color: $bg-2;
+        width: 100px;
+        height: 50px;
+    }
+}

@@ -1,8 +1,12 @@
 import { get } from "../untils/request"
 
-export const getTopics = async () => {
+export const getTopics = async (id = '') => {
+    var path = 'topics'
     try {
-        const topics = await get('topics');
+        if(id) {
+            path += `?id=${id}`
+        }
+        const topics = await get(path);
         if(topics.code !== 200) {
             return []
         } else {
