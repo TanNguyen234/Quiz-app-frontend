@@ -121,7 +121,7 @@ function LayoutDefault() {
 
   return (
     <>
-      <Layout className="layout-default">
+      <Layout className="layout-default" style={{ minHeight: '100vh' }}>
         <Sider
           className="layout-default__sider"
           trigger={null}
@@ -129,6 +129,14 @@ function LayoutDefault() {
           collapsible
           collapsed={collapsed}
           width={isExpanded ? "20%" : "12%"}
+          style={{
+            position: 'fixed',
+            zIndex: 9999,
+            top: 0,
+            left: 0,
+            height: '100vh',
+            overflow: 'auto', // Cho phép scroll nội dung dài
+          }}
           onClick={handleClick}
         >
           <NavLink to="/">
@@ -149,12 +157,17 @@ function LayoutDefault() {
             items={items}
           />
         </Sider>
-        <Layout>
+        <Layout style={{ marginLeft: collapsed ? 80 : 190 ,  transition: 'margin 0.3s ease-in-out'}}>
           <Header
             className="layout-default__header"
             style={{
               padding: 0,
-              background: "#fff",
+              position: 'fixed',
+              zIndex: 100,
+              top: 0,
+              left: 0,
+              width: '100vw',
+              overflow: 'auto'
             }}
           >
             <Button
@@ -162,6 +175,7 @@ function LayoutDefault() {
               icon={collapsed ? <MenuUnfoldOutlined style={{fill: '#fff'}} /> : <MenuFoldOutlined />}
               onClick={handleCollapse}
               style={{
+                marginLeft: collapsed ? 90 : 190,
                 fontSize: "16px",
                 width: 64,
                 height: 64,
@@ -180,7 +194,7 @@ function LayoutDefault() {
           </Header>
           <Content
             style={{
-              margin: "24px 16px",
+              margin: "64px 16px",
               padding: 24,
               background: "#fff",
               borderRadius: "5px",

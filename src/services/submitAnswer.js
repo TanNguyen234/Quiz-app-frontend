@@ -2,7 +2,7 @@ import { post } from "../untils/request"
 
 export const submitAnswer = async (userId, topicId, answers) => {
    const options = {
-     userId: "",
+     userId,
      topicId,
      answers
    }

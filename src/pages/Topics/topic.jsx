@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./topic.scss";
-import { Row, Col, Card, Badge, Empty } from "antd";
+import { Row, Col, Card, Empty, Tooltip } from "antd";
 import { getTopics } from "../../services/getTopics";
 import { getQuestions } from "../../services/getQuestions";
 import { Link } from "react-router-dom";
@@ -8,6 +8,20 @@ import { Link } from "react-router-dom";
 function Topics() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [arrow, setArrow] = useState('Show');
+
+  const mergedArrow = useMemo(() => {
+    if (arrow === 'Hide') {
+      return false;
+    }
+    if (arrow === 'Show') {
+      return true;
+    }
+    return {
+      pointAtCenter: true,
+    };
+  }, [arrow]);
+
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -38,7 +52,7 @@ function Topics() {
           (data.length > 0) ? data.map((topic) => (
             <Link to={`/questions/`+topic._id}>
             <Col span={6}>
-            <Badge size="default" count={topic.totalQuestions}>
+            <Tooltip placement="topLeft" title={`Tổng số câu hỏi: ${topic.totalQuestions}`} arrow={mergedArrow}>
               <Card
                 className="topic__item"
                 hoverable
@@ -55,7 +69,7 @@ function Topics() {
               >
                 {topic.title}
               </Card>
-              </Badge>
+              </Tooltip>
             </Col>
             </Link>
           )) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

@@ -41,10 +41,7 @@ const userReducer = (state = {}, action) => {
                  state: true,
                 }
              } else {
-                 return {
-                     ...state,
-                     state: false
-                 }
+                return state
              }
         
         case "LOGOUT":
@@ -55,10 +52,7 @@ const userReducer = (state = {}, action) => {
             }
     
         default:
-            return {
-                ...state,
-                state: false
-            };
+            return state;
     }
 }
 

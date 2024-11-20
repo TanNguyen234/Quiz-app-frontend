@@ -10,6 +10,7 @@ import Register from "../pages/Register/register";
 import PrivateRoute from '../components/privateRoutes';
 import Topics from '../pages/Topics/topic';
 import Question from '../pages/Questions/question';
+import Answer from '../pages/answer/answer';
 
 export const routes = [
     {
@@ -30,6 +31,10 @@ export const routes = [
                     {
                         path: '/questions/:id',
                         element: <TransitionComponent><Question/></TransitionComponent>
+                    },
+                    {
+                        path: '/answers/check/:id',
+                        element: <TransitionComponent><Answer/></TransitionComponent>
                     }
                 ]
             },
