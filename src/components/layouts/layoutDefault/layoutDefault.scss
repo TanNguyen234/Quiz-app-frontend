@@ -16,7 +16,8 @@
     &__sider {
         color: $text-2;
         background: $bg-2;
-        height: 100vh;
+        position: sticky;
+        top: 0;
         line-height: 120;
         .ant-menu {
             &-item {

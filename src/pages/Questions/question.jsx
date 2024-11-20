@@ -1,17 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import "./question.scss";
 import { useParams } from "react-router-dom";
 import { getTopics } from "../../services/getTopics";
 import { getQuestions } from "../../services/getQuestions";
 import { Button, Empty, Form, Radio } from "antd";
+import { submitAnswer } from "../../services/submitAnswer";
+import { useSelector } from "react-redux";
 
 function Question() {
   const [topic, setTopic] = useState({});
   const [questions, setQuestions] = useState([]);
   const { id } = useParams();
+  const user = useSelector(state => state.userReducer)
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    const data = await submitAnswer(user.id, id, values);
+    console.log(data);
   };
 
   useEffect(() => {
