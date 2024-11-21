@@ -6,6 +6,11 @@ export const submitAnswer = async (userId, topicId, answers) => {
      topicId,
      answers
    }
+   
    const data = await post('answers/submit', options)
-   return data
+   if(data.code === 200) {
+    return data.data
+   } else {
+    return []
+   }
 }

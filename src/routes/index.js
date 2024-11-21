@@ -16,6 +16,7 @@ export const routes = [
     {
         path: '/',
         element: <TransitionProvider><LayoutDefault /></TransitionProvider>,
+        elementError: <></>,
         children: [
             {
                 path: '/',

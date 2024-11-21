@@ -5,6 +5,12 @@ const answerReducer = (state = {}, action) => {
                 ...state,
                 answers: action.data
             };
+        case 'GET_ANSWER_FAILURE':
+            return {
+                ...state,
+                error: action.error,
+                state: false
+            }
         default:
             return state;
     }

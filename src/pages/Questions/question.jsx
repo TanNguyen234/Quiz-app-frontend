@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getTopics } from "../../services/getTopics";
 import { getQuestions } from "../../services/getQuestions";
 import { Button, Empty, Form, Radio } from "antd";
-import { submitAnswer } from "../../services/submitAnswer";
 import { useDispatch, useSelector } from "react-redux";
 import { answer } from "../../actions/answer";
 
@@ -19,9 +18,13 @@ function Question() {
   const user = useSelector(state => state.userReducer)
 
   const onFinish = async (values) => {
-    const data = await submitAnswer(user.id, id, values);
-    dispatch(answer(data));
-    navigate('/answers/check/' + data.answers._id);
+    const data = await dispatch(answer(user.id, topic._id, values, topic.title));
+    console.log(data);
+    if(data.answers) {
+      navigate('/answers/check/' + data._id);
+    } else {
+      alert('Vui lòng nộp lại bài thi')
+    }
   };
 
   useEffect(() => {
