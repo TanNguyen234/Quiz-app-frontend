@@ -84,11 +84,12 @@ export const autoLogin = (token) => async (dispatch) => {
     const user = await auth("user/detail", token);
 
     if (user.code === 200) {
-      const { id, fullName, token } = user.data;
+      const { id, fullName, email, token } = user.data;
       const object = {
         type: "LOGIN",
         id: id,
         fullName: fullName,
+        email: email,
         token: token,
         status: "LOGIN_SUCCESS",
       };

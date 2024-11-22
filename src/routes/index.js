@@ -11,6 +11,7 @@ import PrivateRoute from '../components/privateRoutes';
 import Topics from '../pages/Topics/topic';
 import Question from '../pages/Questions/question';
 import Answer from '../pages/answer/answer';
+import Profile from '../pages/profile';
 
 export const routes = [
     {
@@ -26,8 +27,8 @@ export const routes = [
                 element: <PrivateRoute />,
                 children: [
                     {
-                        path: '/profile',
-                        element: <TransitionComponent>ok</TransitionComponent>
+                        path: '/user/profile',
+                        element: <TransitionComponent><Profile /></TransitionComponent>
                     },
                     {
                         path: '/questions/:id',

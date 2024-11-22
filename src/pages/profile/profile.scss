@@ -1,0 +1,27 @@
+@import '../../assets/scss/variables.scss';
+
+.profile {
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: 500px;
+
+    &__infor {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+        background-color: $text-2;
+        border-radius: 10px;
+        margin-right: 10px;
+    }
+
+    &__achievement {
+        min-height: 200px;
+        background-color: $text;
+        border-radius: 10px;
+    }
+}

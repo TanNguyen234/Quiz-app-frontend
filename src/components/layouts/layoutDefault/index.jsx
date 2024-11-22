@@ -30,7 +30,7 @@ const items = [
       {
         key: "1-1",
         icon: (
-          <NavLink to="/user/information">
+          <NavLink to="/user/profile">
             <InfoCircleOutlined />
           </NavLink>
         ),
@@ -95,6 +95,16 @@ function LayoutDefault() {
 
   const [collapsed, setCollapsed] = useState(false);
   const [isExpanded, setExpended] = useState(false);
+  const [isSubMenuExpanded, setSubMenuExpanded] = useState(false);
+
+  const handleSubClick = (item) => {
+    console.log(item.length)
+    if(item.length > 1) {
+      setSubMenuExpanded(true)
+    } else {
+      setSubMenuExpanded(false)
+    }
+  }
 
   const handleClick = useCallback((e) => {
     const element = document.querySelectorAll(".ant-menu-submenu-open");
@@ -155,7 +165,19 @@ function LayoutDefault() {
             theme="dark"
             inlineCollapsed={collapsed}
             items={items}
+            onOpenChange={handleSubClick}
           />
+          <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined style={{fill: '#fff'}} /> : <MenuFoldOutlined />}
+              onClick={handleCollapse}
+              style={{
+                fontSize: "16px",
+                width: 64,
+                height: 64,
+              }}
+              className={isSubMenuExpanded ? "layout-default__sider--btn" :"layout-default__sider--btn disabled"}
+            />
         </Sider>
         <Layout style={{ marginLeft: collapsed ? 80 : 190 ,  transition: 'margin 0.3s ease-in-out'}}>
           <Header
