@@ -1,4 +1,5 @@
 @import '../../assets/scss/variables.scss';
+$borderWidth: 10px;
 
 .profile {
     padding: 20px;
@@ -8,15 +9,78 @@
     height: 500px;
 
     &__infor {
+        padding: 20px 10px;
         padding: 10px;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        justify-content:flex-start;
+        align-items: center ;
         flex-direction: column;
         height: 100%;
-        background-color: $text-2;
+        background-color: $bg-2;
         border-radius: 10px;
         margin-right: 10px;
+        z-index: 0;
+        .ant-input {
+            color: #fff !important;
+        }
+        label {
+            color: #fff !important;
+        }
+    }
+
+    @keyframes animatedgradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    &__avatar {
+        width: 200px;
+        height: 201px;
+        background: #1D1F20;
+        position: relative;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+
+        span {
+            font-size: 100px;
+            height: 100%;
+        }
+
+        &:hover:after {
+            display: inline-block;
+        }
+    }
+
+    &__avatar:after {
+        content: '';
+        display: none;
+        position: absolute;
+        transition: 0.6s;
+        top: -5px;
+        left: -5px;
+        height: 103%;
+        width: 105%;
+        background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+        border-radius: 5px;
+        z-index: -1;
+        animation: animatedgradient 3s ease alternate infinite;
+        background-size: 300% 300%;
+    }
+
+    &__form {
+       display: flex;
+       justify-content: center;
+       align-items: center;
     }
 
     &__achievement {
