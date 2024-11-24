@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import { Button, Empty, Form, Radio } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import swal from 'sweetalert';
 import "./question.scss";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { getTopics } from "../../services/getTopics";
 import { getQuestions } from "../../services/getQuestions";
-import { Button, Empty, Form, Radio } from "antd";
-import { useDispatch, useSelector } from "react-redux";
 import { answer } from "../../actions/answer";
 
 function Question() {
@@ -17,14 +19,25 @@ function Question() {
   const navigate = useNavigate()
   const user = useSelector(state => state.userReducer)
 
-  const onFinish = async (values) => {
+  const handleSubmit = async (values) => {
     const data = await dispatch(answer(user.id, topic._id, values, topic.title));
-    console.log(data);
+        console.log(data);
     if(data.answers) {
       navigate('/answers/check/' + data._id);
     } else {
       alert('Vui lòng nộp lại bài thi')
     }
+  }
+
+  const onFinish = (values) => {
+    swal("Bạn có chắc muốn nộp bài?", {
+      buttons: ["Không", "Có"],
+    })
+     .then((value) => {
+      if(value) {
+        handleSubmit(values);
+      }
+     })
   };
 
   useEffect(() => {
@@ -54,7 +67,7 @@ function Question() {
                 rules={[
                     {
                       required: true,
-                      message: 'Please hoàn thành câu trả lời!',
+                      message: 'Vui lòng hoàn thành câu trả lời!',
                     },
                 ]
             }
