@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, Input } from "antd";
+import { Button, Checkbox, Flex, Form, Input } from "antd";
 import "./login.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -76,6 +76,11 @@ function Login() {
               hasFeedback
             />
           </Form.Item>
+          <Form.Item>
+          <Flex justify="space-evenly" align="center">
+            <a href="/user/forgot-password">Quên mật khẩu?</a>
+          </Flex>
+         </Form.Item>
           <Form.Item>
             <Button className="form-login__btn" block htmlType="submit">
               Đăng nhập

@@ -1,4 +1,4 @@
-import swal from '@sweetalert/with-react'
+import swal from 'sweetalert'
 
 const Rating = () => {
     const onPick = value => {

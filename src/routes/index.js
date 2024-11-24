@@ -12,6 +12,7 @@ import Topics from '../pages/Topics/topic';
 import Question from '../pages/Questions/question';
 import Answer from '../pages/answer/answer';
 import Profile from '../pages/profile';
+import ForgotPassword from '../pages/forgotPassword';
 
 export const routes = [
     {
@@ -56,7 +57,11 @@ export const routes = [
             {   
                 path: '/user/login',
                 element: <TransitionComponent><Login /></TransitionComponent>
-            }
+            },
+            {   
+                path: '/user/forgot-password',
+                element: <TransitionComponent><ForgotPassword /></TransitionComponent>
+            },
         ]
     }
 ]
