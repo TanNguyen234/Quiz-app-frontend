@@ -14,18 +14,32 @@ function ForgotPassword() {
 
   const onFinish = async (values) => {
     const { email, otp } = values;
-    
-    // navigate('/user/changePassword')
+    try {
+      const checkOTP = post('user/checkOTP', {
+        email,
+        otp
+      })
+
+      if(checkOTP.code === 400) {
+        throw new Error('OTP không đúng');
+      }
+      
+      navigate('/user/change-password', {state: { email: email}})
+    } catch (error) {
+      swal({
+        title: "Lỗi",
+        text: "Email hoặc mã OTP không hợp lệ",
+        icon: "error",
+      })
+    }
   };
 
   const sendOTP = async () => {
     if(!loading) {
         try {
             const values = await form.validateFields(['email'])
-            const response = await post('user/password/otp', { email: values.email });
-            console.log(response);
-            swal("Mã OTP đã gửi đến email: "+ values.email);
-            return;
+            await post('user/password/otp', { email: values.email });
+            swal("Mã OTP đã gửi đến email: "+ values.email+". Vui lòng kiểm tra email");
         } catch (error) {
             swal("Vui lòng nhập email");
             return;

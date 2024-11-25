@@ -12,7 +12,8 @@ import Topics from '../pages/Topics/topic';
 import Question from '../pages/Questions/question';
 import Answer from '../pages/answer/answer';
 import Profile from '../pages/profile';
-import ForgotPassword from '../pages/forgotPassword';
+import ForgotPassword from '../pages/password';
+import ChangePassword from '../pages/password/changePassword';
 
 export const routes = [
     {
@@ -58,9 +59,13 @@ export const routes = [
                 path: '/user/login',
                 element: <TransitionComponent><Login /></TransitionComponent>
             },
-            {   
+            { 
                 path: '/user/forgot-password',
                 element: <TransitionComponent><ForgotPassword /></TransitionComponent>
+            },
+            {   
+                path: '/user/change-password',
+                element: <TransitionComponent><ChangePassword /></TransitionComponent>
             },
         ]
     }

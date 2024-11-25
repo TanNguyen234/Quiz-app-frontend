@@ -8,7 +8,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAnswers } from "../../services/getAnswers";
 import { getTopics } from "../../services/getTopics";
 import { getQuestions } from "../../services/getQuestions";
-import Rating from "../../components/rating";
 
 function Answer() {
   const navigate = useNavigate()
@@ -60,7 +59,6 @@ function Answer() {
 
   return (
     <>
-    <Rating/>
       {questions ? (
         <div className="question">
           <h2 className="question__title">
