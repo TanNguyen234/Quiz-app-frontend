@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../actions/user";
 import { userValidationLogin } from "../../validates/user.validate";
+import swal from 'sweetalert';
 
 function Login() {
   const dispatch = useDispatch();
@@ -14,7 +15,11 @@ function Login() {
     const { email, password } = values;
 
     if (userValidationLogin(email, password)) {
-      alert("Email và mật khẩu không đúng!");
+      swal({
+        title: "Thông báo",
+        text: "Vui lòng điền đầy đủ các trường!",
+        icon: "error",
+      });
       return;
     }
 
@@ -22,7 +27,11 @@ function Login() {
     const result = await dispatch(login(email, password, navigate));
 
     if (!result.success) {
-      alert(result.message);
+      swal({
+        title: "Thông báo",
+        text: "Mật khẩu hoặc tài khoản không tồn tại!",
+        icon: "error",
+      });
     } else {
       localStorage.setItem('isAuthenticated', JSON.stringify(true))
     }

@@ -20,7 +20,8 @@ export const register =
       };
 
       dispatch(object);
-      navigate("/");
+      localStorage.setItem('register', true);
+      navigate("/", {state: { register: true}});
 
       return {
         success: true,
@@ -58,6 +59,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
         status: "LOGIN_SUCCESS",
       };
       dispatch(object);
+      localStorage.setItem('login', true);
       navigate("/");
       return {
         success: true,

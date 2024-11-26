@@ -20,7 +20,6 @@ function ChangePassword() {
           email,
           password
         })
-        console.log(change)
 
         if(change.code === 400) {
             throw new Error("error");

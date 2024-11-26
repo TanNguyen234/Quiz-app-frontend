@@ -1,6 +1,24 @@
 import "./home.scss";
+import swal from 'sweetalert';
 
 function Home() {
+  const login = localStorage.getItem('login');
+  const register = localStorage.getItem('register');
+  if(login) {
+    swal({
+      title: "Thông báo",
+      text: "Chúc mừng bạn đã đăng nhập thành công!",
+      icon: "success",
+    });
+    localStorage.removeItem("login")
+  } else if(register) {
+    swal({
+      title: "Thông báo",
+      text: "Chúc mừng bạn đã đăng ký thành công!",
+      icon: "success",
+    });
+    localStorage.removeItem("register")
+  }
   return (
     <>
       <div className="home">

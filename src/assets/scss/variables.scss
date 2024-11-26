@@ -3,3 +3,17 @@ $text: #1f2833;
 $text-2: #c5c6c7;
 $logo: #66fcf1;
 $border: #45a29e;
+
+.swal-button {
+    transition: 0.6s;
+    padding: 7px 19px;
+    border-radius: 2px;
+    background-color: $bg-2;
+    font-size: 12px;
+    border: 1px solid $bg-2;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+    &:not([disabled]):hover {
+        background: #fff;
+        color: $bg-2;
+    }
+  }

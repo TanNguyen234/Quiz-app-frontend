@@ -1,6 +1,7 @@
 import { Button, Form, Input } from "antd";
 import "./register.scss";
 import { NavLink, useNavigate } from "react-router-dom";
+import swal from 'sweetalert';
 import { userValidationRegister } from "../../validates/user.validate";
 import { useDispatch } from "react-redux";
 import { register } from "../../actions/user";
@@ -13,14 +14,22 @@ function Register() {
     const { fullName, email, password, confirmPassword } = values;
 
     if (userValidationRegister(fullName, email, password, confirmPassword)) {
-      alert('Please fill all the required fields')
+      swal({
+        title: "Thông báo",
+        text: "Mật khẩu hoặc tài khoản không tồn tại!",
+        icon: "error",
+      });
       return;
     }
     
     const result = await dispatch(register(fullName, email, password, navigate))
 
     if(!result.success) {
-      alert(result.message)
+      swal({
+        title: "Thông báo",
+        text: "Mật khẩu hoặc tài khoản không tồn tại!",
+        icon: "error",
+      });
     } else {
       localStorage.setItem('isAuthenticated', JSON.stringify(true))
     }
@@ -59,7 +68,7 @@ function Register() {
             rules={[
               {
                 required: true,
-                message: "Please input your full name!",
+                message: "Vui lòng nhập tên của bạn!",
               },
             ]}
           >
@@ -74,7 +83,7 @@ function Register() {
             rules={[
               {
                 required: true,
-                message: "Please input your email!",
+                message: "Vui lòng nhập email của bạn!",
               },
             ]}
           >
@@ -89,7 +98,7 @@ function Register() {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Vui lòng nhập mật khẩu của bạn!",
               },
             ]}
           >
@@ -105,7 +114,7 @@ function Register() {
             rules={[
               {
                 required: true,
-                message: "Please confirm your password!",
+                message: "Vui lòng xác nhận mật khẩu của bạn!",
                 whitespace: true,
               },
               ({ getFieldValue }) => ({
