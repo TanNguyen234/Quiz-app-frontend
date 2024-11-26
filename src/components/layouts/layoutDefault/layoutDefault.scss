@@ -8,6 +8,10 @@
     font-family: "Roboto", sans-serif !important;
 }
 
+label {
+    word-wrap: break-word
+}
+
 .layout-default {
     min-width: 100vh;
     svg {
@@ -16,9 +20,15 @@
     &__sider {
         color: $text-2;
         background: $bg-2;
-        position: sticky;
         top: 0;
         line-height: 120;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow: auto; // Cho phép scroll nội dung dài
+
         .ant-menu {
             &-item {
                 padding-left: 28px;
@@ -119,5 +129,31 @@
         font-weight: 600;
         padding: 10px 0;
         font-size: 14px;
+    }
+}
+
+@media  (max-width: 1200px) {
+    .layout-default {
+        .ant-layout {
+            &-sider {
+                max-width: 20% !important;
+                width: 15% !important;
+            }
+        }
+    }
+}
+
+@media  (max-width: 992px) {
+    .layout-default {
+        .ant-layout {
+            &-sider {
+                max-width: 20% !important;
+                width: 20% !important;
+            }
+        }
+        .question__question label[title] {
+            white-space: normal;
+            height: 60px;
+        }
     }
 }

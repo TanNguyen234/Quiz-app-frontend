@@ -139,14 +139,6 @@ function LayoutDefault() {
           collapsible
           collapsed={collapsed}
           width={isExpanded ? "20%" : "12%"}
-          style={{
-            position: 'fixed',
-            zIndex: 9999,
-            top: 0,
-            left: 0,
-            height: '100vh',
-            overflow: 'auto', // Cho phép scroll nội dung dài
-          }}
           onClick={handleClick}
         >
           <NavLink to="/">
