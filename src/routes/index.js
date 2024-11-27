@@ -14,6 +14,7 @@ import Answer from '../pages/answer/answer';
 import Profile from '../pages/profile';
 import ForgotPassword from '../pages/password';
 import ChangePassword from '../pages/password/changePassword';
+import TopicsAdmin from '../pages/admin/topics';
 
 export const routes = [
     {
@@ -39,6 +40,10 @@ export const routes = [
                     {
                         path: '/answers/check/:id',
                         element: <TransitionComponent><Answer/></TransitionComponent>
+                    },
+                    {
+                        path: '/admin/topics',
+                        element: <TransitionComponent><TopicsAdmin /></TransitionComponent>
                     }
                 ]
             },

@@ -14,6 +14,9 @@ import {
   LineChartOutlined,
   InfoCircleOutlined,
   AuditOutlined,
+  UserSwitchOutlined,
+  QuestionOutlined,
+  DiffOutlined
 } from "@ant-design/icons";
 import "./layoutDefault.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -89,6 +92,58 @@ const items = [
   },
 ];
 
+const itemsPublic = [
+  {
+    key: "1",
+    icon: (
+      <NavLink to="/topics">
+        <BookOutlined />
+      </NavLink>
+    ),
+    label: "Chủ đề câu hỏi",
+  },
+]
+
+const itemsAdmin = [
+  ...items,
+  {
+    key: "3",
+    icon: (
+      <NavLink to="/admin/topics">
+        <DiffOutlined />
+      </NavLink>
+    ),
+    label: "Quản lý chủ đề",
+  },
+  {
+    key: "4",
+    label: "Quản lý câu hỏi",
+    icon: (
+      <NavLink to="/admin/questions">
+        <QuestionOutlined />
+      </NavLink>
+    ),
+  },
+  {
+    key: "5",
+    icon: (
+      <NavLink to="/admin/users">
+        <UserSwitchOutlined />
+      </NavLink>
+    ),
+    label: "Quản lý users",
+  },
+  {
+    key: "6",
+    icon: (
+      <NavLink to="/admin/accounts">
+        <BookOutlined />
+      </NavLink>
+    ),
+    label: "Quản lý admins",
+  }
+]
+
 function LayoutDefault() {
   const dispatch = useDispatch()
   const isLogin = useSelector(state => state.userReducer.state);
@@ -98,7 +153,6 @@ function LayoutDefault() {
   const [isSubMenuExpanded, setSubMenuExpanded] = useState(false);
 
   const handleSubClick = (item) => {
-    console.log(item.length)
     if(item.length > 1) {
       setSubMenuExpanded(true)
     } else {
@@ -156,7 +210,8 @@ function LayoutDefault() {
             mode="inline"
             theme="dark"
             inlineCollapsed={collapsed}
-            items={items}
+            // items={isLogin.role === "admin" ? itemsAdmin : isLogin ? items : itemsPublic}
+            items={isLogin ? itemsAdmin : itemsPublic}
             onOpenChange={handleSubClick}
           />
           <Button
