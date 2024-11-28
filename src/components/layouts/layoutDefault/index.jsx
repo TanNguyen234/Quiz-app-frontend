@@ -1,7 +1,7 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Button, Layout, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { useCallback, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -16,11 +16,13 @@ import {
   AuditOutlined,
   UserSwitchOutlined,
   QuestionOutlined,
-  DiffOutlined
+  DiffOutlined,
+  UserAddOutlined
 } from "@ant-design/icons";
 import "./layoutDefault.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../actions/user";
+import Search from "antd/es/input/Search";
 
 const { Header, Content, Footer } = Layout;
 
@@ -66,16 +68,21 @@ const items = [
     children: [
       {
         key: "3-1",
+        icon:  <NavLink to="/user/findFriend"><UserAddOutlined /></NavLink>,
+        label: "Danh sách người dùng",
+      },
+      {
+        key: "3-2",
         icon: <MailOutlined />,
         label: "Lời mời kết bạn",
       },
       {
-        key: "3-2",
-        icon: <UsergroupAddOutlined />,
+        key: "3-3",
+        icon: <NavLink to="/user/friends"><UsergroupAddOutlined /></NavLink>,
         label: "Danh sách bạn bè",
       },
       {
-        key: "3-3",
+        key: "3-4",
         icon: <MessageOutlined />,
         label: "Tin nhắn",
       },
@@ -144,13 +151,22 @@ const itemsAdmin = [
   }
 ]
 
+export const searchContext = createContext()
+
 function LayoutDefault() {
   const dispatch = useDispatch()
   const isLogin = useSelector(state => state.userReducer.state);
+  const location = useLocation();
 
   const [collapsed, setCollapsed] = useState(false);
   const [isExpanded, setExpended] = useState(false);
   const [isSubMenuExpanded, setSubMenuExpanded] = useState(false);
+
+  const [searchValue, setSearchValue] = useState(null)
+
+  const onSearch = (value, e, info) => {
+    setSearchValue(value)
+  }
 
   const handleSubClick = (item) => {
     if(item.length > 1) {
@@ -179,7 +195,7 @@ function LayoutDefault() {
   }, []);
 
   const handleCollapse = () => {
-    setExpended(false);
+    setExpended(false)
     setCollapsed(!collapsed);
   };
 
@@ -248,8 +264,10 @@ function LayoutDefault() {
                 fontSize: "16px",
                 width: 64,
                 height: 64,
+                opacity: !isSubMenuExpanded ? "" :  0
               }}
             />
+            {location.pathname === "/user/findFriend" && (<Search onSearch={onSearch} className="layout-default__search"  style={{ width: 504 }} placeholder="Nhập id hoặc tên người dùng" enterButton />)}
             <span className="layout-default__header--box">
               {isLogin ? (
                   <NavLink onClick={() => dispatch(logout())} to="/">Đăng xuất</NavLink>
@@ -270,7 +288,9 @@ function LayoutDefault() {
             }}
           >
             <main className="layout-default__main">
-              <Outlet />
+              <searchContext.Provider value={searchValue}>
+                <Outlet />
+              </searchContext.Provider>
             </main>
           </Content>
           <Footer

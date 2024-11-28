@@ -78,6 +78,7 @@ label {
         line-height: '64px';
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         svg {
             fill: $text;
@@ -101,6 +102,15 @@ label {
                     transition: 0.5;
                 }
             }
+        }
+    }
+
+    &__search {
+        .ant-input-search-button {
+            background: $bg-2 !important;
+        }
+        svg {
+            fill: #fff !important;
         }
     }
 
