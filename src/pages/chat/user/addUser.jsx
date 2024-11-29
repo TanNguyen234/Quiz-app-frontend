@@ -1,10 +1,13 @@
 import { Button } from "antd";
 import { useState } from "react";
+import { sendRequest } from "../../../helpers/socketHelpers";
 
 function AddUser(props) {
+  const { id } = props;
   const [state, setState] = useState(false);
   const handleClick = () => {
     setState(true);
+    sendRequest(id);
     console.log(props);
   };
 
