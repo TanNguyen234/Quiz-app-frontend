@@ -10,6 +10,7 @@ import AddUser from "./addUser";
 function User() {
   const [data, setData] = useState([]);
   const valueSearch = useContext(searchContext);
+  console.log(valueSearch)
   useEffect(() => {
     const fetchApi = async () => {
       const users = valueSearch ? await getUser(valueSearch) : await getUser();
@@ -36,7 +37,7 @@ function User() {
                 <div className="user__name">{user.fullName}</div>
                 <div className="user__btn">
                   <AddUser id={user._id} />
-                  <Link to="/user/info"><Button className="user__btn--info">Xem thông tin</Button></Link>
+                  <Link to={`/user/info/${user._id}`}><Button className="user__btn--info">Xem thông tin</Button></Link>
                 </div>
               </div>
             </Col>

@@ -16,7 +16,7 @@ function Register() {
     if (userValidationRegister(fullName, email, password, confirmPassword)) {
       swal({
         title: "Thông báo",
-        text: "Mật khẩu hoặc tài khoản không tồn tại!",
+        text: "Vui lòng điền đầy đủ các trường!",
         icon: "error",
       });
       return;
@@ -27,7 +27,7 @@ function Register() {
     if(!result.success) {
       swal({
         title: "Thông báo",
-        text: "Mật khẩu hoặc tài khoản không tồn tại!",
+        text: "Email đã tồn tại!",
         icon: "error",
       });
     } else {

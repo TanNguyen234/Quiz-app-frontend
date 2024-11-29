@@ -73,7 +73,7 @@ const items = [
       },
       {
         key: "3-2",
-        icon: <MailOutlined />,
+        icon: <NavLink to="/user/requestFriend"><MailOutlined /></NavLink>,
         label: "Lời mời kết bạn",
       },
       {

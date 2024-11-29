@@ -17,6 +17,7 @@ import ChangePassword from '../pages/password/changePassword';
 import TopicsAdmin from '../pages/admin/topics';
 import Friend from '../pages/chat/friend';
 import User from '../pages/chat/user';
+import Request from '../pages/chat/request';
 
 export const routes = [
     {
@@ -38,6 +39,10 @@ export const routes = [
                     {
                         path: '/user/findFriend',
                         element: <TransitionComponent><User /></TransitionComponent>
+                    },
+                    {
+                        path: '/user/requestFriend',
+                        element: <TransitionComponent><Request /></TransitionComponent>
                     },
                     {
                         path: '/user/friends',
