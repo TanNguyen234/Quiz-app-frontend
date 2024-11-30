@@ -20,29 +20,15 @@ export const getUser = async (keyword) => {
 }
 
 export const getRequestFriend = async (type) => {
-    if(type==="request") {
-        let path = 'users/requestFriend'
-        try {
-            const users = await auth(path, getCookie("token"));
-            if(users.code !== 200) {
-                return []
-            } else {
-                return users.data;
-            }
-        } catch (error) {
-            return []
-        }   
-    } else if(type==="accept") {
-        let path = 'users/acceptFriend'
-        try {
-            const users = await auth(path, getCookie("token"));
-            if(users.code !== 200) {
-                return []
-            } else {
-                return users.data;
-            }
-        } catch (error) {
-            return []
-        }   
-    }
+    const path = type === 'request' ? 'users/inviteToFriend?type=request' : 'users?type=accept'
+    try {
+        const users = await auth(path, getCookie("token"));
+        if(users.code === 200) {
+            return users.data;
+        } else {
+            throw new Error('Invalid token')
+        }
+    } catch (error) {
+        return []
+    }   
 }

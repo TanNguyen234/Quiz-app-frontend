@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Empty, Row } from "antd";
+import { Avatar, Button, Col, Empty, Row, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./style.scss";
 import { useContext, useEffect, useState } from "react";
@@ -15,7 +15,6 @@ function User() {
     const fetchApi = async () => {
       const users = valueSearch ? await getUser(valueSearch) : await getUser();
       setData(users);
-      console.log(users, data);
     };
     fetchApi();
   }, [valueSearch]);
@@ -25,7 +24,7 @@ function User() {
       {data.length > 0 ? (
         <Row className="user" gutter={[20, 20]}>
           {data.map((user) => (
-            <Col key={user._id} span={8} className="user__item">
+            <Col key={user._id} span={7} className="user__item">
               <div className="user__avatar">
                 {user.avatar ? (
                   <img src={user.avatar} alt={user.name} />
@@ -44,7 +43,16 @@ function User() {
           ))}
         </Row>
       ) : (
-        <Empty />
+        <Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+          imageStyle={{
+            height: 60,
+          }}
+          style={{ margin: "10px"}}
+          description={
+            <Typography.Text>
+              Không có yêu cầu nào
+            </Typography.Text>
+          }/>
       )}
     </>
   );

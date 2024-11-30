@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Empty, Row } from "antd";
+import { Avatar, Button, Col, Empty, Row, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./style.scss";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ function Request() {
   const [type, setType] = useState("request");
   useEffect(() => {
     const fetchApi = async () => {
-      const users = getRequestFriend(type);
+      const users = await getRequestFriend(type);
       setData(users);
     };
     fetchApi();
@@ -19,7 +19,7 @@ function Request() {
   return (
     <>
       <Row className="user" gutter={[20, 20]}>
-        <Col style={{width: "100%"}}>
+        <Col style={{ width: "100%" }}>
           <Button onClick={() => setType("request")}>
             Danh sách lời mời kết bạn
           </Button>
@@ -43,7 +43,9 @@ function Request() {
                   {type === "request" ? (
                     <>
                       <Button type="primary">Chấp nhận</Button>
-                      <Button type="danger">Xóa</Button>
+                      <Button color="danger" variant="solid">
+                        Xóa
+                      </Button>
                       <Link to={`/user/info/${user._id}`}>
                         <Button className="user__btn--info">
                           Xem thông tin
@@ -65,7 +67,16 @@ function Request() {
             </Col>
           ))
         ) : (
-          <Empty />
+          <Empty
+            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+            imageStyle={{
+              height: 60,
+            }}
+            style={{ margin: "10px" , position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)"}}
+            description={
+              <Typography.Text>Không có yêu cầu nào</Typography.Text>
+            }
+          />
         )}
       </Row>
     </>

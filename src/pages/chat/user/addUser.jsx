@@ -8,7 +8,6 @@ function AddUser(props) {
   const handleClick = () => {
     setState(true);
     sendRequest(id);
-    console.log(props);
   };
 
   return (
