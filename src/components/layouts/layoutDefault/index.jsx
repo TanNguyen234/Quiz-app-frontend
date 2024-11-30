@@ -160,7 +160,7 @@ function LayoutDefault() {
 
   const [collapsed, setCollapsed] = useState(false);
   const [isExpanded, setExpended] = useState(false);
-  const [isSubMenuExpanded, setSubMenuExpanded] = useState(false);
+  const [openKeys, setOpenKeys] = useState(null);
 
   const [searchValue, setSearchValue] = useState(null)
 
@@ -168,13 +168,9 @@ function LayoutDefault() {
     setSearchValue(value)
   }
 
-  const handleSubClick = (item) => {
-    if(item.length > 1) {
-      setSubMenuExpanded(true)
-    } else {
-      setSubMenuExpanded(false)
-    }
-  }
+  const onOpenChange = (keys) => {
+    setOpenKeys(keys);
+  };
 
   const handleClick = useCallback((e) => {
     const element = document.querySelectorAll(".ant-menu-submenu-open");
@@ -197,6 +193,9 @@ function LayoutDefault() {
   const handleCollapse = () => {
     setExpended(false)
     setCollapsed(!collapsed);
+    if (!collapsed) {
+      setOpenKeys([]); // Đóng submenu
+    }
   };
 
   return (
@@ -223,24 +222,14 @@ function LayoutDefault() {
           <Menu
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["1-1"]}
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
             mode="inline"
             theme="dark"
             inlineCollapsed={collapsed}
             // items={isLogin.role === "admin" ? itemsAdmin : isLogin ? items : itemsPublic}
             items={isLogin ? itemsAdmin : itemsPublic}
-            onOpenChange={handleSubClick}
           />
-          <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined style={{fill: '#fff'}} /> : <MenuFoldOutlined />}
-              onClick={handleCollapse}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
-              className={isSubMenuExpanded ? "layout-default__sider--btn" :"layout-default__sider--btn disabled"}
-            />
         </Sider>
         <Layout style={{ marginLeft: collapsed ? 80 : 190 ,  transition: 'margin 0.3s ease-in-out'}}>
           <Header
@@ -264,7 +253,6 @@ function LayoutDefault() {
                 fontSize: "16px",
                 width: 64,
                 height: 64,
-                opacity: !isSubMenuExpanded ? "" :  0
               }}
             />
             {location.pathname === "/user/findFriend" && (<Search onSearch={onSearch} className="layout-default__search"  style={{ width: 504 }} placeholder="Nhập id hoặc tên người dùng" enterButton />)}
