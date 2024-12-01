@@ -10,7 +10,6 @@ import AddUser from "./addUser";
 function User() {
   const [data, setData] = useState([]);
   const valueSearch = useContext(searchContext);
-  console.log(valueSearch)
   useEffect(() => {
     const fetchApi = async () => {
       const users = valueSearch ? await getUser(valueSearch) : await getUser();
@@ -50,7 +49,7 @@ function User() {
           style={{ margin: "10px"}}
           description={
             <Typography.Text>
-              Không có yêu cầu nào
+              Không có dữ liệu
             </Typography.Text>
           }/>
       )}

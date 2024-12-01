@@ -20,7 +20,7 @@ export const getUser = async (keyword) => {
 }
 
 export const getRequestFriend = async (type) => {
-    const path = type === 'request' ? 'users/inviteToFriend?type=request' : 'users?type=accept'
+    const path = `users/inviteToFriend?type=${type}`
     try {
         const users = await auth(path, getCookie("token"));
         if(users.code === 200) {
