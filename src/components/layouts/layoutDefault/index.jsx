@@ -112,7 +112,6 @@ const itemsPublic = [
 ]
 
 const itemsAdmin = [
-  ...items,
   {
     key: "3",
     icon: (
@@ -227,8 +226,7 @@ function LayoutDefault() {
             mode="inline"
             theme="dark"
             inlineCollapsed={collapsed}
-            // items={isLogin.role === "admin" ? itemsAdmin : isLogin ? items : itemsPublic}
-            items={isLogin ? itemsAdmin : itemsPublic}
+            items={isLogin ? items : itemsPublic}
           />
         </Sider>
         <Layout style={{ marginLeft: collapsed ? 80 : 190 ,  transition: 'margin 0.3s ease-in-out'}}>

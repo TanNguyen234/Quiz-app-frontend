@@ -7,7 +7,7 @@ function CancelRequest(props) {
   const { id } = props;
   const [state, setState] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     swal({
       title: "Bạn có chắc muốn hủy yêu cầu?",
       icon: "warning",
@@ -30,7 +30,7 @@ function CancelRequest(props) {
   return (
     <>
       {state ? (
-        <Button color="danger">Đã hủy yêu cầu</Button>
+        <Button color="danger" variant="outline">Đã hủy yêu cầu</Button>
       ) : (
         <Button onClick={handleClick} color="danger" variant="solid">
           Hủy yêu cầu

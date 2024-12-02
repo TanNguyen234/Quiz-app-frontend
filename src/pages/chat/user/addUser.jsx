@@ -13,6 +13,7 @@ function AddUser(props) {
       content: 'Đã gửi yêu cầu kết bạn',
     });
   };
+
   const handleClick = () => {
     setState(true);
     success();
@@ -21,7 +22,7 @@ function AddUser(props) {
 
   return (
     <>
-       {contextHolder}
+      {contextHolder}
       {state ? (
         <Button className="user__btn--add" type="default">
           Đã gửi yêu cầu
