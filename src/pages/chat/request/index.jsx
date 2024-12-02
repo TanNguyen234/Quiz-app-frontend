@@ -14,41 +14,26 @@ function Request() {
 
   const [messageApi, contextHolder] = message.useMessage();
   const messageAntd = (type) => {
-    if (type === "accept") {
-      messageApi.open({
-        type: "success",
-        content: "Đã đồng ý kết bạn",
-      });
-    } else if (type === "deny") {
-      messageApi.open({
-        type: "error",
-        content: "Đã hủy yêu cầu kết bạn",
-      });
-    }
+    messageApi.open({
+      type: type === "accept" ? "success" :  "error",
+      content: type === "accept" ? "Đã đồng ý kết bạn": "Đã hủy yêu cầu kết bạn",
+    });
   };
 
   const handleDenyRequest = (userId) => {
-    const btn = btnRef.current;
-    if(btn) {
-      const parent = btn.closest('.user__item');
-      if(parent) {
-        denyRequest(userId);
-        parent.style.display = 'none';
-        messageAntd("deny");
-      }
-    }
+    denyRequest(userId);
+    // const btn = btnRef.current;
+    // const parent = btn.closest('.user__item');
+    // parent.style.display = 'none';
+    messageAntd("deny");
   };
 
   const handleAcceptRequest = (userId) => {
-    const btn = btnRef.current;
-    if(btn) {
-      const parent = btn.closest('.user__item');
-      if(parent) {
-        acceptRequest(userId);
-        parent.style.display = 'none';
-        messageAntd("accept");
-      }
-    }
+    acceptRequest(userId);
+    // const btn = btnRef.current;
+    // const parent = btn.closest('.user__item');
+    // parent.style.display = 'none';
+    messageAntd("accept");
   };
 
   useEffect(() => {
@@ -64,7 +49,7 @@ function Request() {
       {contextHolder}
       <Row
         className="user"
-        gutter={[20, 20]}
+        gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
       >
         <Col style={{ width: "100%" }}>
           <Button
@@ -114,8 +99,8 @@ function Request() {
                     </>
                   ) : (
                     <>
-                      <Button ref={btnRef} type="primary" onClick={() => handleAcceptRequest(user._id)}>Chấp nhận</Button>
-                      <Button ref={btnRef} color="danger" variant="solid" onClick={() => handleDenyRequest(user._id)}>
+                      <Button /*ref={btnRef}*/ type="primary" onClick={() => handleAcceptRequest(user._id)}>Chấp nhận</Button>
+                      <Button /*ref={btnRef}*/ color="danger" variant="solid" onClick={() => handleDenyRequest(user._id)}>
                         Từ chối
                       </Button>
                       <Link to={`/user/info/${user._id}`}>

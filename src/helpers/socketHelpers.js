@@ -7,6 +7,7 @@ const socket = io(path, {
 
 //Chức năng kết bạn
 export const sendRequest = async (userId) => {
+  console.log("CLIENT_ADD_FRIEND", socket)
   socket.emit("CLIENT_ADD_FRIEND", userId);
 };
 
@@ -16,10 +17,12 @@ export const cancelRequest = async (userId) => {
 };
 
 export const denyRequest = async (userId) => {
+  console.log("CLIENT_DENY_FRIEND", socket)
   socket.emit("CLIENT_DENY_FRIEND", userId);
 };
 
 export const acceptRequest = async (userId) => {
+  console.log("CLIENT_ACCEPT_FRIEND", socket)
   socket.emit("CLIENT_ACCEPT_FRIEND", userId);
 };
 //End Chức năng kết bạn
