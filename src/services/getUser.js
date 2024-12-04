@@ -32,3 +32,17 @@ export const getRequestFriend = async (type) => {
         return []
     }   
 }
+
+export const getFriends = async () => {
+    const path = `users/friends`
+    try {
+        const users = await auth(path, getCookie("token"));
+        if(users.code === 200) {
+            return users.data;
+        } else {
+            throw new Error('Invalid token')
+        }
+    } catch (error) {
+        return []
+    }   
+}
