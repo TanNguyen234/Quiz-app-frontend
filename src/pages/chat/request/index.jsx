@@ -10,7 +10,6 @@ import { acceptRequest, denyRequest } from "../../../helpers/socketHelpers";
 function Request() {
   const [data, setData] = useState([]);
   const [type, setType] = useState("accept");
-  const btnRef = useRef(null);
 
   const [messageApi, contextHolder] = message.useMessage();
   const messageAntd = (type) => {
@@ -21,20 +20,22 @@ function Request() {
     });
   };
 
-  const handleDenyRequest = (userId) => {
+  const handleDenyRequest = (userId, index) => {
     denyRequest(userId);
-    // const btn = btnRef.current;
-    // const parent = btn.closest('.user__item');
-    // parent.style.display = 'none';
-    messageAntd("deny");
+    const item = document.querySelector(`#item-${index}`)
+    if(item) {
+      item.style.display = 'none';
+      messageAntd("deny");
+    }
   };
 
-  const handleAcceptRequest = (userId) => {
+  const handleAcceptRequest = (userId, index) => {
     acceptRequest(userId);
-    // const btn = btnRef.current;
-    // const parent = btn.closest('.user__item');
-    // parent.style.display = 'none';
-    messageAntd("accept");
+    const item = document.querySelector(`#item-${index}`)
+    if(item) {
+      item.style.display = 'none';
+      messageAntd("accept");
+    }
   };
 
   useEffect(() => {
@@ -70,7 +71,7 @@ function Request() {
           </Button>
         </Col>
         {data.length > 0 ? (
-          data.map((user) => (
+          data.map((user, index) => (
             <Col
               key={user._id}
               xxl={type === "accept" ? 9 : 7}
@@ -80,6 +81,7 @@ function Request() {
               sm={type === "accept" ? 24 : 20}
               xs={24}
               className="user__item"
+              id={`item-${index}`}
             >
               <div className="user__avatar">
                 {user.avatar ? (
@@ -103,15 +105,15 @@ function Request() {
                   ) : (
                     <>
                       <Button
-                        /*ref={btnRef}*/ type="primary"
-                        onClick={() => handleAcceptRequest(user._id)}
+                        type="primary"
+                        onClick={() => handleAcceptRequest(user._id, index)}
                       >
                         Chấp nhận
                       </Button>
                       <Button
-                        /*ref={btnRef}*/ color="danger"
+                        color="danger"
                         variant="solid"
-                        onClick={() => handleDenyRequest(user._id)}
+                        onClick={() => handleDenyRequest(user._id, index)}
                       >
                         Từ chối
                       </Button>

@@ -20,7 +20,7 @@ function Friend() {
     return (<>
     {data.length > 0 ? <Row className="user" gutter={[20, 20]}>
           {data.map((user) => (
-            <Col key={user._id} className="user__item" xxl={6} xl={8} lg={12} md={16} sm={20} xs={24}>
+            <Col key={user._id} className="user__item" xxl={9} xl={12} lg={15} md={20} sm={24} xs={24}>
               <div className="user__avatar">
                 {user.avatar ? (
                   <img src={user.avatar} alt={user.name} />
