@@ -23,7 +23,7 @@ function User() {
       {data.length > 0 ? (
         <Row className="user" gutter={[20, 20]}>
           {data.map((user) => (
-            <Col key={user._id} span={7} className="user__item">
+            <Col key={user._id} xxl={6} xl={8} lg={12} md={16} sm={20} xs={24} className="user__item">
               <div className="user__avatar">
                 {user.avatar ? (
                   <img src={user.avatar} alt={user.name} />
