@@ -83,7 +83,7 @@ const items = [
       },
       {
         key: "3-4",
-        icon: <MessageOutlined />,
+        icon: <NavLink to="/chat"><MessageOutlined /></NavLink>,
         label: "Tin nhắn",
       },
     ],
@@ -253,7 +253,7 @@ function LayoutDefault() {
                 height: 64,
               }}
             />
-            {location.pathname === "/user/findFriend" && (<Search onSearch={onSearch} className="layout-default__search"  style={{ width: 504 }} placeholder="Nhập id hoặc tên người dùng" enterButton />)}
+            {location.pathname === "/user/findFriend" && (<Search onSearch={onSearch} className="layout-default__search" placeholder="Nhập id hoặc tên người dùng" enterButton />)}
             <span className="layout-default__header--box">
               {isLogin ? (
                   <NavLink onClick={() => dispatch(logout())} to="/">Đăng xuất</NavLink>
