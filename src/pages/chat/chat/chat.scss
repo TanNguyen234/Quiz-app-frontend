@@ -1,0 +1,97 @@
+@import '../../../assets/scss/variables.scss';
+
+.chat {
+    &__group {
+        background-color: $bg-2;
+        min-height: calc(100vh - 100px);
+        padding: 10px;
+        border-radius: 5px;
+        position: sticky;
+        top: 50px;
+        button {
+            background: $bg-2;
+            &:hover {
+                svg {
+                    fill: $bg-2;
+                }
+            }
+            svg {
+                fill: white;
+            }
+        }
+    }
+
+    &__body {
+        padding: 10px;
+        .inner-incoming, .inner-outgoing {
+            width: 50%;
+        }
+
+        .inner-incoming {
+            .inner-content {
+                background-color: #d0cfcf;
+                display: inline-block;
+                padding: 10px;
+                border-radius: 10px;
+                font-weight: 400;
+            }
+        }
+
+        .inner-outgoing {
+            margin-left: 50%;
+            position: relative;
+            height: 40px;
+            float: right;
+            
+            .inner-content {
+                background-color: $bg-2;
+                padding: 10px;
+                color: white;
+                border-radius: 10px;
+                clear: right;
+                float: right;
+            }
+        }
+
+        .inner-name {
+            font-weight: 700;
+        }
+    }
+
+    &__send {
+        border-top: 1px solid #7c7c7c;
+        padding: 10px 0;
+
+        input {
+            width: 90%;
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid  #6a6868;;
+        }
+    
+
+        button {
+            margin-left: 5px;
+            width: 60px;
+            border: 0;
+            background-color: $bg-2;
+            border-radius: 10px;
+            padding: 5px;
+            svg {
+                fill: white
+            }
+        }
+    }
+
+    &__icon {
+        font-size: 20px;
+        svg {
+            fill: $bg-2;
+            cursor: pointer;
+        }
+    }
+}
+
+.chat .inner-root i {
+    color: white;
+}

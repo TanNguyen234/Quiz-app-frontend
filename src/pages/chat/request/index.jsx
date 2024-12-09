@@ -1,7 +1,7 @@
 import { Avatar, Button, Col, Empty, message, Row, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./style.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getRequestFriend } from "../../../services/getUser";
 import { Link } from "react-router-dom";
 import CancelRequest from "./cancelRequest";

@@ -18,15 +18,17 @@ function Chat() {
   const [input, setInput] = useState('');
 
   const onSearch = (value) => {
-    setLoading(true); 
+    if(value) {
+      setLoading(true); 
 
-    setTimeout(() => {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
 
-    }, 3000);
-    setState(false)
-    console.log(value);
-    setInput('')
+      }, 3000);
+      setState(false)
+      console.log(value);
+      setInput('')
+    }
   };
 
   const emoji = (emoji) => {
@@ -40,6 +42,7 @@ function Chat() {
   //Image
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
+    setState(false)
     setFileList(newFileList);
   };
   const onPreview = async (file) => {
@@ -61,12 +64,12 @@ function Chat() {
   return (
     <>
       <Row style={{ padding: "10px" }} gutter={10}>
-        <Col span={6}>
+        <Col span={6} className="chat__group">
           <Search
             onSearch={onSearch}
             className="chat__search"
             placeholder="Tìm kiếm"
-            enterButton
+            enterButtonX
           />
         </Col>
         <Col span={14}>
@@ -113,7 +116,7 @@ function Chat() {
                 className="chat__icon"
                 style={{ display: "inline-block" }}
               />
-              <FileImageOutlined onClick={() => setUpload(!upload)}/>
+              <FileImageOutlined onClick={() => setUpload(!upload)} className="chat__icon"/>
               <Search
                 onSearch={onSearch}
                 className="chat__input"
@@ -122,7 +125,7 @@ function Chat() {
                 onChange={handleChange}
                 style={{ display: "inline-block", width: "95%" }}
                 loading={loading}
-                enterButton={!loading ? <SendOutlined /> : "Đang gửi"}
+                enterButton={!loading ? <SendOutlined /> : ""}
               />
             </div>
           </div>
