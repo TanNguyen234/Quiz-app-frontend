@@ -43,3 +43,15 @@ export const deleteFriend = (userId) => {
   socket.emit("CLIENT_DELETE_FRIEND", userId);
 };
 //End Chức năng kết bạn
+
+//Chức năng chatting
+export const sendMessage = (message) => {
+  const socket = getSocket()
+  console.log("CLIENT_SEND_MESSAGE", socket)
+  socket.emit("CLIENT_SEND_MESSAGE", message);
+  
+  socket.on('SERVER_RETURN_MESSAGE', (data) => {
+    console.log('SERVER_RETURN_MESSAGE: ', data)
+  })
+}
+//End chức năng chattting

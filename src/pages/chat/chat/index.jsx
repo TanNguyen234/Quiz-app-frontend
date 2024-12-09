@@ -1,4 +1,5 @@
 import "./chat.scss";
+
 import { Col, Row, Upload } from "antd";
 import Search from "antd/es/input/Search";
 import {
@@ -6,20 +7,37 @@ import {
   SendOutlined,
   SmileOutlined,
 } from "@ant-design/icons";
+
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImgCrop from "antd-img-crop";
 
+import { useSelector } from "react-redux";
+import { sendMessage } from "../../../helpers/socketHelpers";
+import { getChatAll } from "../../../services/getChat";
+
 function Chat() {
+  const id = useSelector(state => state.userReducer.id);
+
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
   const [upload, setUpload] = useState(false);
   const [input, setInput] = useState('');
+  const [dataChat, setDataChat] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const data = await getChatAll()
+      setDataChat(data);
+    }
+    fetchApi();
+  }, [])
 
   const onSearch = (value) => {
     if(value) {
       setLoading(true); 
+      sendMessage(value);
 
       setTimeout(() => {
         setLoading(false);
@@ -60,7 +78,6 @@ function Chat() {
     imgWindow?.document.write(image.outerHTML);
   };
   //End Image
-
   return (
     <>
       <Row style={{ padding: "10px" }} gutter={10}>
@@ -73,7 +90,7 @@ function Chat() {
           />
         </Col>
         <Col span={14}>
-          <div className="chat">
+          <div className="chat" my-id={id}>
             <div className="chat__body">
               <div class="inner-incoming">
                 <div class="inner-name">Em yêu</div>
