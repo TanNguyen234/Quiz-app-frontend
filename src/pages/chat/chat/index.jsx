@@ -18,34 +18,38 @@ import { sendMessage } from "../../../helpers/socketHelpers";
 import { getChatAll } from "../../../services/getChat";
 
 function Chat() {
-  const id = useSelector(state => state.userReducer.id);
+  const id = useSelector((state) => state.userReducer.id);
 
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
   const [upload, setUpload] = useState(false);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [dataChat, setDataChat] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getChatAll()
+      const data = await getChatAll();
       setDataChat(data);
-    }
+      const bodyChat = document.querySelector(".chat__body");
+      if (bodyChat) {
+        bodyChat.scrollTop = bodyChat.scrollHeight; // scroll to bottom on new message
+      }
+      console.log(data);
+    };
     fetchApi();
-  }, [])
+  }, []);
 
   const onSearch = (value) => {
-    if(value) {
-      setLoading(true); 
+    if (value) {
+      setLoading(true);
       sendMessage(value);
 
       setTimeout(() => {
         setLoading(false);
-
-      }, 3000);
-      setState(false)
+      }, 500);
+      setState(false);
       console.log(value);
-      setInput('')
+      setInput("");
     }
   };
 
@@ -54,13 +58,13 @@ function Chat() {
   };
 
   const handleChange = (e) => {
-    setInput(e.target.value)
-  }
+    setInput(e.target.value);
+  };
 
   //Image
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
-    setState(false)
+    setState(false);
     setFileList(newFileList);
   };
   const onPreview = async (file) => {
@@ -92,52 +96,55 @@ function Chat() {
         <Col span={14}>
           <div className="chat" my-id={id}>
             <div className="chat__body">
-              <div class="inner-incoming">
-                <div class="inner-name">Em yêu</div>
-                <div class="inner-content">
-                  A ơi sang nhà e nha, nhà e không có ai ở nhà cả
-                </div>
-              </div>
-              <div class="inner-outgoing">
-                <div class="inner-content">Thế à ok e iu</div>
-              </div>
-              <div class="inner-incoming">
-                <div class="inner-name">Em yêu</div>
-                <div class="inner-content">Nhanh nha a</div>
-              </div>
-              <div class="inner-outgoing">
-                <div class="inner-content">
-                  Ck đến r mà thấy ai ở nhà đâu? Cửa khóa mà :(
-                </div>
-              </div>
-              <div class="inner-incoming">
-                <div class="inner-name">Em yêu</div>
-                <div class="inner-content">Thì e bảo không ai ở nhà mà</div>
-              </div>
+              {dataChat.map((item, index) =>
+                item._doc.user_id === id ? (
+                  <div key={index} class="inner-outgoing">
+                    <div class="inner-content">{item._doc.content}</div>
+                  </div>
+                ) : (
+                  <div key={index} class="inner-incoming">
+                    <div class="inner-name">{item.fullName}</div>
+                    <div class="inner-content">
+                     {item._doc.content}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <div className="chat__send">
-              {upload && <ImgCrop rotationSlider>
-                <Upload
-                  action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                  listType="picture-card"
-                  fileList={fileList}
-                  onChange={onChange}
-                  onPreview={onPreview}
-                >
-                  {fileList.length < 5 && "+ Upload"}
-                </Upload>
-              </ImgCrop>}
-              {state && <Picker data={data} onEmojiSelect={(e) => emoji(e)} />}
+              {upload && (
+                <ImgCrop rotationSlider>
+                  <Upload
+                    action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                    listType="picture-card"
+                    fileList={fileList}
+                    onChange={onChange}
+                    onPreview={onPreview}
+                  >
+                    {fileList.length < 5 && "+ Upload"}
+                  </Upload>
+                </ImgCrop>
+              )}
+              {state && (
+                <Picker
+                  data={data}
+                  previewPosition="none"
+                  onEmojiSelect={(e) => emoji(e)}
+                />
+              )}
               <SmileOutlined
                 onClick={() => setState(!state)}
                 className="chat__icon"
                 style={{ display: "inline-block" }}
               />
-              <FileImageOutlined onClick={() => setUpload(!upload)} className="chat__icon"/>
+              <FileImageOutlined
+                onClick={() => setUpload(!upload)}
+                className="chat__icon"
+              />
               <Search
                 onSearch={onSearch}
                 className="chat__input"
-                placeholder="Tìm kiếm"
+                placeholder="Nhập tin nhắn"
                 value={input}
                 onChange={handleChange}
                 style={{ display: "inline-block", width: "95%" }}

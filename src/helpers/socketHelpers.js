@@ -51,7 +51,23 @@ export const sendMessage = (message) => {
   socket.emit("CLIENT_SEND_MESSAGE", message);
   
   socket.on('SERVER_RETURN_MESSAGE', (data) => {
-    console.log('SERVER_RETURN_MESSAGE: ', data)
+    console.log("SERVER_RETURN_MESSAGE", data)
+    const idUser = document.querySelector('[my-id]').getAttribute('my-id')
+    const body = document.querySelector('.chat__body');
+    const div = document.createElement('div');
+
+    if(idUser === data.user_id) {
+      div.classList.add('inner-outgoing');
+      div.innerHTML = `<div class="inner-content">${data.content}</div>`
+    } else {
+      div.classList.add('inner-incoming');
+      div.innerHTML = `
+        <div class="inner-name">${data.fullName}</div>
+        <div class="inner-content">${data.content}</div>
+      `
+    }
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight
   })
 }
 //End chức năng chattting
