@@ -1,4 +1,4 @@
-export const API_DOMAIN = "http://localhost:3002/api/v1/";
+export const API_DOMAIN = "https://quiz-app-api-4u1g.onrender.com/api/v1/";
 
 export const auth = async (path, token) => {
     const res = await fetch(API_DOMAIN + path, {
