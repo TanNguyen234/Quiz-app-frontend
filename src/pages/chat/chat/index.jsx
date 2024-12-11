@@ -10,15 +10,16 @@ import {
 
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ImgCrop from "antd-img-crop";
 
 import { useSelector } from "react-redux";
-import { sendMessage } from "../../../helpers/socketHelpers";
+import { sendMessage, sendTyping } from "../../../helpers/socketHelpers";
 import { getChatAll } from "../../../services/getChat";
 
 function Chat() {
   const id = useSelector((state) => state.userReducer.id);
+  const chatBodyRef = useRef(null);
 
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,14 +31,16 @@ function Chat() {
     const fetchApi = async () => {
       const data = await getChatAll();
       setDataChat(data);
-      const bodyChat = document.querySelector(".chat__body");
-      if (bodyChat) {
-        bodyChat.scrollTop = bodyChat.scrollHeight; // scroll to bottom on new message
-      }
-      console.log(data);
     };
     fetchApi();
   }, []);
+
+  useEffect(() => {
+    const bodyChat = chatBodyRef.current
+    if (bodyChat) {
+      bodyChat.scrollTop = bodyChat.scrollHeight;
+    }
+  }, [dataChat])
 
   const onSearch = (value) => {
     if (value) {
@@ -58,6 +61,7 @@ function Chat() {
   };
 
   const handleChange = (e) => {
+    sendTyping()
     setInput(e.target.value);
   };
 
@@ -95,7 +99,7 @@ function Chat() {
         </Col>
         <Col span={14}>
           <div className="chat" my-id={id}>
-            <div className="chat__body">
+            <div className="chat__body" ref={chatBodyRef}>
               {dataChat.map((item, index) =>
                 item._doc.user_id === id ? (
                   <div key={index} class="inner-outgoing">
@@ -110,6 +114,16 @@ function Chat() {
                   </div>
                 )
               )}
+            </div>
+            <div className="chat__typing">
+              {/* <div className="chat__typing--box">
+                <div className="inner-name">Foxy</div>
+                <div className="inner-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div> */}
             </div>
             <div className="chat__send">
               {upload && (
