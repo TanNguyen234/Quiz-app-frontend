@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Checkbox, Flex, Form, Input } from "antd";
+import { Button, Flex, Form, Input } from "antd";
 import "./login.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

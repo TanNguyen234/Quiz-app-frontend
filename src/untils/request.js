@@ -1,4 +1,4 @@
-export const API_DOMAIN = "https://quiz-app-api-4u1g.onrender.com/api/v1/";
+export const API_DOMAIN = process.env.REACT_APP_PATH_API;
 
 export const auth = async (path, token) => {
     const res = await fetch(API_DOMAIN + path, {

@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const path = "http://localhost:3002"; //Chỉ cần đường dẫn gốc (orginal path)
+const path = process.env.REACT_APP_PATH_BACKEND; //Chỉ cần đường dẫn gốc (orginal path)
 let socket = null;
 
 export const getSocket = () => {

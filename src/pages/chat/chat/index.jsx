@@ -1,9 +1,10 @@
 import "./chat.scss";
 
-import { Col, Row, Upload } from "antd";
+import { Col, Image, Row, Upload } from "antd";
 import Search from "antd/es/input/Search";
 import {
   FileImageOutlined,
+  PlusOutlined,
   SendOutlined,
   SmileOutlined,
 } from "@ant-design/icons";
@@ -11,11 +12,18 @@ import {
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useEffect, useRef, useState } from "react";
-import ImgCrop from "antd-img-crop";
 
 import { useSelector } from "react-redux";
 import { sendMessage, sendTyping } from "../../../helpers/socketHelpers";
 import { getChatAll } from "../../../services/getChat";
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 function Chat() {
   const id = useSelector((state) => state.userReducer.id);
@@ -23,9 +31,13 @@ function Chat() {
 
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [upload, setUpload] = useState(false);
   const [input, setInput] = useState("");
   const [dataChat, setDataChat] = useState([]);
+
+  const [upload, setUpload] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -36,22 +48,33 @@ function Chat() {
   }, []);
 
   useEffect(() => {
-    const bodyChat = chatBodyRef.current
+    const bodyChat = chatBodyRef.current;
     if (bodyChat) {
       bodyChat.scrollTop = bodyChat.scrollHeight;
     }
-  }, [dataChat])
+  }, [dataChat]);
 
   const onSearch = (value) => {
-    if (value) {
+    if (value || fileList.length > 0) {
+      const formData = {};
+      if (value) formData["message"] = value;
+
+      if (fileList.length === 1) {
+        formData["file"] = fileList[0];
+      } else if (fileList.length > 1) {
+        formData["files"] = fileList;
+      }
+      console.log(formData);
+      sendMessage(formData);
+      if (fileList.length > 0) setFileList([]);
+      setUpload(false);
+      setState(false);
       setLoading(true);
-      sendMessage(value);
 
       setTimeout(() => {
         setLoading(false);
       }, 500);
       setState(false);
-      console.log(value);
       setInput("");
     }
   };
@@ -61,30 +84,43 @@ function Chat() {
   };
 
   const handleChange = (e) => {
-    sendTyping()
+    sendTyping();
     setInput(e.target.value);
   };
 
   //Image
-  const [fileList, setFileList] = useState([]);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+  };
+
   const onChange = ({ fileList: newFileList }) => {
     setState(false);
     setFileList(newFileList);
   };
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
+
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
+
   //End Image
   return (
     <>
@@ -108,9 +144,7 @@ function Chat() {
                 ) : (
                   <div key={index} class="inner-incoming">
                     <div class="inner-name">{item.fullName}</div>
-                    <div class="inner-content">
-                     {item._doc.content}
-                    </div>
+                    <div class="inner-content">{item._doc.content}</div>
                   </div>
                 )
               )}
@@ -127,17 +161,28 @@ function Chat() {
             </div>
             <div className="chat__send">
               {upload && (
-                <ImgCrop rotationSlider>
-                  <Upload
-                    action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                    listType="picture-card"
-                    fileList={fileList}
-                    onChange={onChange}
-                    onPreview={onPreview}
-                  >
-                    {fileList.length < 5 && "+ Upload"}
-                  </Upload>
-                </ImgCrop>
+                <Upload
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={handlePreview}
+                  onChange={onChange}
+                >
+                  {fileList.length >= 5 ? null : uploadButton}
+                </Upload>
+              )}
+              {previewImage && (
+                <Image
+                  wrapperStyle={{
+                    display: "none",
+                  }}
+                  preview={{
+                    visible: previewOpen,
+                    onVisibleChange: (visible) => setPreviewOpen(visible),
+                    afterOpenChange: (visible) =>
+                      !visible && setPreviewImage(""),
+                  }}
+                  src={previewImage}
+                />
               )}
               {state && (
                 <Picker
