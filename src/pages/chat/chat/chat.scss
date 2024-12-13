@@ -49,13 +49,15 @@
         border-radius: 10px;
         font-weight: 400;
       }
+      .inner-images {
+        text-align: left;
+      }
     }
 
     .inner-outgoing {
       margin-bottom: 3px;
       margin-left: 50%;
       position: relative;
-      height: 40px;
       float: right;
 
       .inner-content {
@@ -70,6 +72,22 @@
 
     .inner-name {
       font-weight: 700;
+    }
+
+    .inner-images {
+      margin-left: 2px;
+      text-align: right;
+      clear: right;
+
+      img {
+        width: 200px;
+        height: auto;
+        object-fit: contain;
+        background: #efefef;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 5px;
+      }
     }
   }
 
@@ -121,7 +139,7 @@
       opacity: 0.1;
     }
   }
-  
+
   &__typing {
     position: relative;
     &--box {

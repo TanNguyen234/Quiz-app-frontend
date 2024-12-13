@@ -11,7 +11,7 @@ import {
 
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useSelector } from "react-redux";
 import { sendMessage, sendTyping } from "../../../helpers/socketHelpers";
@@ -46,13 +46,32 @@ function Chat() {
     };
     fetchApi();
   }, []);
-
+  const previewSentImage = useCallback((url) => {
+    setPreviewImage(url);
+    setPreviewOpen(true);
+  },[])
   useEffect(() => {
-    const bodyChat = chatBodyRef.current;
-    if (bodyChat) {
-      bodyChat.scrollTop = bodyChat.scrollHeight;
-    }
-  }, [dataChat]);
+  const chatBody = chatBodyRef.current;
+
+  if (chatBody) {
+    // Lắng nghe sự kiện thay đổi trong chat body
+    const observer = new MutationObserver(() => {
+      const images = chatBody.querySelectorAll('img');
+      if (images) {
+        images.forEach((image) => {
+          image.onclick = () => previewSentImage(image.getAttribute('src'));
+        });
+      }
+      chatBody.scrollTop = chatBody.scrollHeight; // Cuộn xuống cuối
+    });
+
+    // Quan sát các thay đổi trong DOM của chatBody
+    observer.observe(chatBody, { childList: true, subtree: true });
+
+    // Cleanup observer khi component unmount
+    return () => observer.disconnect();
+  }
+}, [chatBodyRef, previewSentImage]);
 
   const onSearch = (value) => {
     if (value || fileList.length > 0) {
@@ -64,7 +83,6 @@ function Chat() {
       } else if (fileList.length > 1) {
         formData["files"] = fileList;
       }
-      console.log(formData);
       sendMessage(formData);
       if (fileList.length > 0) setFileList([]);
       setUpload(false);
@@ -81,7 +99,7 @@ function Chat() {
 
   const emoji = (emoji) => {
     setInput(input + emoji.native);
-  };
+  }
 
   const handleChange = (e) => {
     sendTyping();
@@ -139,12 +157,18 @@ function Chat() {
               {dataChat.map((item, index) =>
                 item._doc.user_id === id ? (
                   <div key={index} class="inner-outgoing">
-                    <div class="inner-content">{item._doc.content}</div>
+                    {item._doc.content && <div class="inner-content">{item._doc.content}</div>}
+                    {item._doc.images && <div class="inner-images">
+                      {item._doc.images.map((item, key) => <img key={key} src={item} alt="ảnh" onClick={() => previewSentImage(item)}/>)}
+                    </div>}
                   </div>
                 ) : (
                   <div key={index} class="inner-incoming">
                     <div class="inner-name">{item.fullName}</div>
-                    <div class="inner-content">{item._doc.content}</div>
+                    {item._doc.content && <div class="inner-content">{item._doc.content}</div>}
+                    {item._doc.images && <div class="inner-images">
+                      {item._doc.images.map((item, key) => <img key={key} src={item} alt="ảnh" onClick={() => previewSentImage(item)}/>)}
+                    </div>}
                   </div>
                 )
               )}
@@ -166,6 +190,7 @@ function Chat() {
                   fileList={fileList}
                   onPreview={handlePreview}
                   onChange={onChange}
+                  accept="image/*"
                 >
                   {fileList.length >= 5 ? null : uploadButton}
                 </Upload>

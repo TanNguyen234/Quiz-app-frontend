@@ -57,17 +57,33 @@ export const sendMessage = (message) => {
       const idUser = document.querySelector("[my-id]").getAttribute("my-id");
       const body = document.querySelector(".chat__body");
       const div = document.createElement("div");
+
+      let htmlMessage = ``
+      let htmlImages = ``;
   
       if (idUser === data.user_id) {
         div.classList.add("inner-outgoing");
-        div.innerHTML = `<div class="inner-content">${data.content}</div>`;
       } else {
         div.classList.add("inner-incoming");
-        div.innerHTML = `
+        htmlMessage += `
           <div class="inner-name">${data.fullName}</div>
-          <div class="inner-content">${data.content}</div>
         `;
       }
+      
+      if(data.content) htmlMessage += `<div class="inner-content">${data.content}</div>`
+
+      if(data.images) {
+        htmlImages += `<div class='inner-images'>`;
+        for (const image of data.images) {
+          htmlImages += `
+            <img src=${image} alt='image'/>
+          `;
+        }
+        htmlImages += `</div>`
+      }
+
+      div.innerHTML = htmlMessage + htmlImages;
+      console.log(div)
       body.appendChild(div);
       body.scrollTop = body.scrollHeight;
     });
