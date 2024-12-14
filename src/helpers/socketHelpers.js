@@ -69,7 +69,7 @@ export const sendMessage = (message) => {
           <div class="inner-name">${data.fullName}</div>
         `;
       }
-      
+
       if(data.content) htmlMessage += `<div class="inner-content">${data.content}</div>`
 
       if(data.images) {
@@ -83,7 +83,6 @@ export const sendMessage = (message) => {
       }
 
       div.innerHTML = htmlMessage + htmlImages;
-      console.log(div)
       body.appendChild(div);
       body.scrollTop = body.scrollHeight;
     });
@@ -130,7 +129,6 @@ export const sendTyping = () => {
           `;
           elementListTyping.appendChild(boxTyping);
           body.scrollTop = body.scrollHeight;
-          console.log(elementListTyping);
         }
       } else if (data.type === "hide") {
         if (typingElement) {
@@ -141,3 +139,16 @@ export const sendTyping = () => {
   }
 };
 //End chức năng chattting
+// SERVER_RETURN_USER_STATUS_ONLINE
+export const statusUser = () => {
+  const socket = getSocket();
+  socket.on("SERVER_RETURN_USER_STATUS_ONLINE", (data) => {
+    console.log("SERVER_RETURN_USER_STATUS_ONLINE", data)
+    const boxUser = document.querySelector(`[user-id='${data.userId}']`);
+      if (boxUser) {
+        const status = boxUser.querySelector("[status]");
+        status.setAttribute("status", data.status);
+      }
+  });
+}
+// SERVER_RETURN_USER_STATUS_ONLINE

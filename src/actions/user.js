@@ -1,5 +1,6 @@
 import { deleteCookie, setCookie } from "../helpers/cookie";
 import { auth, post } from "../untils/request";
+import { logoutService } from '../services/logout'
 
 export const register =
   (fullName, email, password, navigate) => async (dispatch) => {
@@ -117,6 +118,7 @@ export const autoLogin = (token) => async (dispatch) => {
 };
 
 export const logout = () => {
+  logoutService()
   deleteCookie('token');
   return {
     type: "LOGOUT",
