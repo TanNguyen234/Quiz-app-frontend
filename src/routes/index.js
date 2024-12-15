@@ -51,7 +51,7 @@ export const routes = [
                         element: <TransitionComponent><Friend /></TransitionComponent>
                     },
                     {
-                        path: '/chat',
+                        path: '/chat/:roomChatId',
                         element: <TransitionComponent><Chat /></TransitionComponent>
                     },
                     {

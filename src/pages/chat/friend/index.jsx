@@ -6,13 +6,16 @@ import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import CancelFriend from "./cancelFriend";
 import { getSocket, statusUser } from "../../../helpers/socketHelpers";
+import { useSelector } from "react-redux";
 
 function Friend() {
+  const id = useSelector(state => state.userReducer.id);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
       const friends = await getFriends();
+      console.log(friends, id)
       setData(friends);
     };
     fetchApi();
@@ -53,7 +56,9 @@ function Friend() {
                 <div className="user__content">
                   <div className="user__name">{user.fullName}</div>
                   <div className="user__btn">
-                    <Link to={`/chat/${user._id}`}>
+                    {user.friendList.map((item) => 
+                    ( 
+                      item.user_id === id ? <Link to={`/chat/${item.room_chat_id}`}>
                       <Button
                         className="user__btn--info"
                         color="primary"
@@ -61,7 +66,8 @@ function Friend() {
                       >
                         Nhắn tin
                       </Button>
-                    </Link>
+                  </Link> : <></>
+                    ))}
                     <CancelFriend id={user._id} />
                     <Link to={`/user/info/${user._id}`}>
                       <Button className="user__btn--info">Xem thông tin</Button>

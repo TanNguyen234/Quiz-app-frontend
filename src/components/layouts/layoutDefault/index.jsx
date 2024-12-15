@@ -83,7 +83,7 @@ const items = [
       },
       {
         key: "3-4",
-        icon: <NavLink to="/chat"><MessageOutlined /></NavLink>,
+        icon: <NavLink to="/rooms"><MessageOutlined /></NavLink>,
         label: "Tin nhắn",
       },
     ],

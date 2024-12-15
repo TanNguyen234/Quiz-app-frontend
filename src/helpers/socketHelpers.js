@@ -15,31 +15,26 @@ export const getSocket = () => {
 //Chức năng kết bạn
 export const sendRequest = (userId) => {
   const socket = getSocket();
-  console.log("CLIENT_ADD_FRIEND", socket);
   socket.emit("CLIENT_ADD_FRIEND", userId);
 };
 
 export const cancelRequest = (userId) => {
   const socket = getSocket();
-  console.log("CLIENT_CANCEL_FRIEND", socket);
   socket.emit("CLIENT_CANCEL_FRIEND", userId);
 };
 
 export const denyRequest = (userId) => {
   const socket = getSocket();
-  console.log("CLIENT_DENY_FRIEND", socket);
   socket.emit("CLIENT_DENY_FRIEND", userId);
 };
 
 export const acceptRequest = (userId) => {
   const socket = getSocket();
-  console.log("CLIENT_ACCEPT_FRIEND", socket);
   socket.emit("CLIENT_ACCEPT_FRIEND", userId);
 };
 
 export const deleteFriend = (userId) => {
   const socket = getSocket();
-  console.log("CLIENT_DELETE_FRIEND", socket);
   socket.emit("CLIENT_DELETE_FRIEND", userId);
 };
 //End Chức năng kết bạn
@@ -47,13 +42,11 @@ export const deleteFriend = (userId) => {
 //Chức năng chatting
 export const sendMessage = (message) => {
   const socket = getSocket();
-  console.log("CLIENT_SEND_MESSAGE", socket);
   socket.emit("CLIENT_SEND_MESSAGE", message);
   socket.emit("CLIENT_SEND_TYPING", "hide");
 
   if(!socket.hasListeners('SERVER_RETURN_MESSAGE')) {
     socket.on("SERVER_RETURN_MESSAGE", (data) => {
-      console.log("SERVER_RETURN_MESSAGE", data);
       const idUser = document.querySelector("[my-id]").getAttribute("my-id");
       const body = document.querySelector(".chat__body");
       const div = document.createElement("div");
@@ -91,13 +84,11 @@ export const sendMessage = (message) => {
 
 let timeout;
 function showTyping(socket) {
-  console.log("typing");
   socket.emit("CLIENT_SEND_TYPING", "show");
 
   if (timeout) clearTimeout(timeout);
 
   timeout = setTimeout(() => {
-    console.log('CLIENT_SEND_TYPING hide');
     socket.emit("CLIENT_SEND_TYPING", "hide");
   }, 3000);
 }
