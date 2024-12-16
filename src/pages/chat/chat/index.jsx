@@ -1,12 +1,13 @@
 import "./chat.scss";
 
-import { Col, Image, Row, Upload } from "antd";
+import { Avatar, Col, Image, Row, Upload } from "antd";
 import Search from "antd/es/input/Search";
 import {
   FileImageOutlined,
   PlusOutlined,
   SendOutlined,
   SmileOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
 import data from "@emoji-mart/data";
@@ -15,7 +16,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useSelector } from "react-redux";
 import { sendMessage, sendTyping } from "../../../helpers/socketHelpers";
-import { getChatAll } from "../../../services/getChat";
+import { getChatAll, getRoom } from "../../../services/getChat";
+import { NavLink, useParams } from "react-router-dom";
+import About from "./about";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -27,12 +30,14 @@ const getBase64 = (file) =>
 
 function Chat() {
   const id = useSelector((state) => state.userReducer.id);
+  const params = useParams();
   const chatBodyRef = useRef(null);
 
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
   const [dataChat, setDataChat] = useState([]);
+  const [roomData, setRoomData] = useState([]);
 
   const [upload, setUpload] = useState(false);
   const [fileList, setFileList] = useState([]);
@@ -42,36 +47,40 @@ function Chat() {
   useEffect(() => {
     const fetchApi = async () => {
       const data = await getChatAll();
+      const rooms = await getRoom();
       setDataChat(data);
+      console.log(rooms, params);
+      setRoomData(rooms);
     };
     fetchApi();
   }, []);
+
   const previewSentImage = useCallback((url) => {
     setPreviewImage(url);
     setPreviewOpen(true);
-  },[])
+  }, []);
   useEffect(() => {
-  const chatBody = chatBodyRef.current;
+    const chatBody = chatBodyRef.current;
 
-  if (chatBody) {
-    // Lắng nghe sự kiện thay đổi trong chat body
-    const observer = new MutationObserver(() => {
-      const images = chatBody.querySelectorAll('img');
-      if (images) {
-        images.forEach((image) => {
-          image.onclick = () => previewSentImage(image.getAttribute('src'));
-        });
-      }
-      chatBody.scrollTop = chatBody.scrollHeight; // Cuộn xuống cuối
-    });
+    if (chatBody) {
+      // Lắng nghe sự kiện thay đổi trong chat body
+      const observer = new MutationObserver(() => {
+        const images = chatBody.querySelectorAll("img");
+        if (images) {
+          images.forEach((image) => {
+            image.onclick = () => previewSentImage(image.getAttribute("src"));
+          });
+        }
+        chatBody.scrollTop = chatBody.scrollHeight; // Cuộn xuống cuối
+      });
 
-    // Quan sát các thay đổi trong DOM của chatBody
-    observer.observe(chatBody, { childList: true, subtree: true });
+      // Quan sát các thay đổi trong DOM của chatBody
+      observer.observe(chatBody, { childList: true, subtree: true });
 
-    // Cleanup observer khi component unmount
-    return () => observer.disconnect();
-  }
-}, [chatBodyRef, previewSentImage]);
+      // Cleanup observer khi component unmount
+      return () => observer.disconnect();
+    }
+  }, [chatBodyRef, previewSentImage]);
 
   const onSearch = (value) => {
     if (value || fileList.length > 0) {
@@ -99,7 +108,7 @@ function Chat() {
 
   const emoji = (emoji) => {
     setInput(input + emoji.native);
-  }
+  };
 
   const handleChange = (e) => {
     sendTyping();
@@ -150,31 +159,61 @@ function Chat() {
             placeholder="Tìm kiếm"
             enterButtonX
           />
+          <div className="chat__search--list">
+            {roomData.map((item) => (
+              <NavLink to={"/chat/" + item._id}><div className="chat__search--item">
+              {!item.avatar && <Avatar size={64} icon={<UserOutlined />} />}
+              </div></NavLink>
+            ))}
+          </div>
         </Col>
-        <Col span={14}>
-          <div className="chat" my-id={id}>
-            <div className="chat__body" ref={chatBodyRef}>
-              {dataChat.map((item, index) =>
-                item._doc.user_id === id ? (
-                  <div key={index} class="inner-outgoing">
-                    {item._doc.content && <div class="inner-content">{item._doc.content}</div>}
-                    {item._doc.images && <div class="inner-images">
-                      {item._doc.images.map((item, key) => <img key={key} src={item} alt="ảnh" onClick={() => previewSentImage(item)}/>)}
-                    </div>}
-                  </div>
-                ) : (
-                  <div key={index} class="inner-incoming">
-                    <div class="inner-name">{item.fullName}</div>
-                    {item._doc.content && <div class="inner-content">{item._doc.content}</div>}
-                    {item._doc.images && <div class="inner-images">
-                      {item._doc.images.map((item, key) => <img key={key} src={item} alt="ảnh" onClick={() => previewSentImage(item)}/>)}
-                    </div>}
-                  </div>
-                )
-              )}
-            </div>
-            <div className="chat__typing">
-              {/* <div className="chat__typing--box">
+        {params.id !== "1" ? (
+          <Col span={14}>
+            <div className="chat" my-id={id}>
+              <div className="chat__body" ref={chatBodyRef}>
+                {dataChat.map((item, index) =>
+                  item._doc.user_id === id ? (
+                    <div key={index} class="inner-outgoing">
+                      {item._doc.content && (
+                        <div class="inner-content">{item._doc.content}</div>
+                      )}
+                      {item._doc.images && (
+                        <div class="inner-images">
+                          {item._doc.images.map((item, key) => (
+                            <img
+                              key={key}
+                              src={item}
+                              alt="ảnh"
+                              onClick={() => previewSentImage(item)}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div key={index} class="inner-incoming">
+                      <div class="inner-name">{item.fullName}</div>
+                      {item._doc.content && (
+                        <div class="inner-content">{item._doc.content}</div>
+                      )}
+                      {item._doc.images && (
+                        <div class="inner-images">
+                          {item._doc.images.map((item, key) => (
+                            <img
+                              key={key}
+                              src={item}
+                              alt="ảnh"
+                              onClick={() => previewSentImage(item)}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                )}
+              </div>
+              <div className="chat__typing">
+                {/* <div className="chat__typing--box">
                 <div className="inner-name">Foxy</div>
                 <div className="inner-dots">
                   <span></span>
@@ -182,62 +221,67 @@ function Chat() {
                   <span></span>
                 </div>
               </div> */}
-            </div>
-            <div className="chat__send">
-              {upload && (
-                <Upload
-                  listType="picture-card"
-                  fileList={fileList}
-                  onPreview={handlePreview}
-                  onChange={onChange}
-                  accept="image/*"
-                >
-                  {fileList.length >= 5 ? null : uploadButton}
-                </Upload>
-              )}
-              {previewImage && (
-                <Image
-                  wrapperStyle={{
-                    display: "none",
-                  }}
-                  preview={{
-                    visible: previewOpen,
-                    onVisibleChange: (visible) => setPreviewOpen(visible),
-                    afterOpenChange: (visible) =>
-                      !visible && setPreviewImage(""),
-                  }}
-                  src={previewImage}
+              </div>
+              <div className="chat__send">
+                {upload && (
+                  <Upload
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={onChange}
+                    accept="image/*"
+                  >
+                    {fileList.length >= 5 ? null : uploadButton}
+                  </Upload>
+                )}
+                {previewImage && (
+                  <Image
+                    wrapperStyle={{
+                      display: "none",
+                    }}
+                    preview={{
+                      visible: previewOpen,
+                      onVisibleChange: (visible) => setPreviewOpen(visible),
+                      afterOpenChange: (visible) =>
+                        !visible && setPreviewImage(""),
+                    }}
+                    src={previewImage}
+                  />
+                )}
+                {state && (
+                  <Picker
+                    data={data}
+                    previewPosition="none"
+                    onEmojiSelect={(e) => emoji(e)}
+                  />
+                )}
+                <SmileOutlined
+                  onClick={() => setState(!state)}
+                  className="chat__icon"
+                  style={{ display: "inline-block" }}
                 />
-              )}
-              {state && (
-                <Picker
-                  data={data}
-                  previewPosition="none"
-                  onEmojiSelect={(e) => emoji(e)}
+                <FileImageOutlined
+                  onClick={() => setUpload(!upload)}
+                  className="chat__icon"
                 />
-              )}
-              <SmileOutlined
-                onClick={() => setState(!state)}
-                className="chat__icon"
-                style={{ display: "inline-block" }}
-              />
-              <FileImageOutlined
-                onClick={() => setUpload(!upload)}
-                className="chat__icon"
-              />
-              <Search
-                onSearch={onSearch}
-                className="chat__input"
-                placeholder="Nhập tin nhắn"
-                value={input}
-                onChange={handleChange}
-                style={{ display: "inline-block", width: "95%" }}
-                loading={loading}
-                enterButton={!loading ? <SendOutlined /> : ""}
-              />
+                <Search
+                  onSearch={onSearch}
+                  className="chat__input"
+                  placeholder="Nhập tin nhắn"
+                  value={input}
+                  onChange={handleChange}
+                  style={{ display: "inline-block", width: "95%" }}
+                  loading={loading}
+                  enterButton={!loading ? <SendOutlined /> : ""}
+                />
+              </div>
             </div>
-          </div>
-        </Col>
+          </Col>
+        ) : (
+          <Col span={14}>
+            <About />
+          </Col>
+        )}
       </Row>
     </>
   );
