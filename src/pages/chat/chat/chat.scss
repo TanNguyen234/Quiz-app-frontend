@@ -209,13 +209,34 @@
   }
   //End About
   &__search {
-    .active &--item {
-      background: gray;
-    }
     &--item {
       background: #fff;
       border-radius: 5px;
       margin: 3px 0;
+      padding: 2px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    &--content {
+      margin-left: 10px;
+      font-size: 16px;
+    }
+    &--name {
+      color: $bg-2;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    &--inner {
+      color: $bg-2;
+    }
+
+    .active &--item {
+      background: rgba(105, 105, 105, 0.34);
+    }
+    .active &--name,
+    .active &--inner {
+      color: #fff;
     }
   }
 }

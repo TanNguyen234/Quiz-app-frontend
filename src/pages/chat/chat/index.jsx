@@ -17,7 +17,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { sendMessage, sendTyping } from "../../../helpers/socketHelpers";
 import { getChatAll, getRoom } from "../../../services/getChat";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import About from "./about";
 
 const getBase64 = (file) =>
@@ -32,6 +32,7 @@ function Chat() {
   const id = useSelector((state) => state.userReducer.id);
   const params = useParams();
   const chatBodyRef = useRef(null);
+  const navigate = useNavigate();
 
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,14 +47,24 @@ function Chat() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getChatAll();
       const rooms = await getRoom();
-      setDataChat(data);
-      console.log(rooms, params);
+      console.log(rooms);
       setRoomData(rooms);
+
+      if (params.id !== "1") {
+        const checkRoomId = await getRoom(params.id);
+        console.log(checkRoomId);
+        if (checkRoomId.length === 0) {
+          navigate("/chat/1");
+          return;
+        }
+
+        const data = await getChatAll(params.id);
+        setDataChat(data);
+      }
     };
     fetchApi();
-  }, []);
+  }, [params.id]);
 
   const previewSentImage = useCallback((url) => {
     setPreviewImage(url);
@@ -83,8 +94,10 @@ function Chat() {
   }, [chatBodyRef, previewSentImage]);
 
   const onSearch = (value) => {
-    if (value || fileList.length > 0) {
-      const formData = {};
+    if ((value || fileList.length > 0) && params.id !== '1') {
+      const formData = {
+        room: params.id
+      };
       if (value) formData["message"] = value;
 
       if (fileList.length === 1) {
@@ -161,9 +174,15 @@ function Chat() {
           />
           <div className="chat__search--list">
             {roomData.map((item) => (
-              <NavLink to={"/chat/" + item._id}><div className="chat__search--item">
-              {!item.avatar && <Avatar size={64} icon={<UserOutlined />} />}
-              </div></NavLink>
+              <NavLink to={"/chat/" + item._doc._id}>
+                <div className="chat__search--item">
+                  {!item.avatar && <Avatar size={60} src='/images/avatar-default.png' />}
+                  <div className="chat__search--content">
+                    <div className="chat__search--name">{item.info.fullName}</div>
+                    <div className="chat__search--inner">{item.chat ? item.chat : '...'}</div>
+                  </div>
+                </div>
+              </NavLink>
             ))}
           </div>
         </Col>
