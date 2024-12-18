@@ -7,7 +7,6 @@ import {
   PlusOutlined,
   SendOutlined,
   SmileOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 
 import data from "@emoji-mart/data";
@@ -48,7 +47,6 @@ function Chat() {
   useEffect(() => {
     const fetchApi = async () => {
       const rooms = await getRoom();
-      console.log(rooms);
       setRoomData(rooms);
 
       if (params.id !== "1") {
@@ -95,9 +93,7 @@ function Chat() {
 
   const onSearch = (value) => {
     if ((value || fileList.length > 0) && params.id !== '1') {
-      const formData = {
-        room: params.id
-      };
+      const formData = {};
       if (value) formData["message"] = value;
 
       if (fileList.length === 1) {

@@ -17,12 +17,14 @@ import {
   UserSwitchOutlined,
   QuestionOutlined,
   DiffOutlined,
-  UserAddOutlined
+  UserAddOutlined,
 } from "@ant-design/icons";
 import "./layoutDefault.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../actions/user";
 import Search from "antd/es/input/Search";
+import { useEffect } from "react";
+import search_suggest from "./search-suggest";
 
 const { Header, Content, Footer } = Layout;
 
@@ -68,22 +70,38 @@ const items = [
     children: [
       {
         key: "3-1",
-        icon:  <NavLink to="/user/findFriend"><UserAddOutlined /></NavLink>,
+        icon: (
+          <NavLink to="/user/findFriend">
+            <UserAddOutlined />
+          </NavLink>
+        ),
         label: "Danh sách người dùng",
       },
       {
         key: "3-2",
-        icon: <NavLink to="/user/requestFriend"><MailOutlined /></NavLink>,
+        icon: (
+          <NavLink to="/user/requestFriend">
+            <MailOutlined />
+          </NavLink>
+        ),
         label: "Lời mời kết bạn",
       },
       {
         key: "3-3",
-        icon: <NavLink to="/user/friends"><UsergroupAddOutlined /></NavLink>,
+        icon: (
+          <NavLink to="/user/friends">
+            <UsergroupAddOutlined />
+          </NavLink>
+        ),
         label: "Danh sách bạn bè",
       },
       {
         key: "3-4",
-        icon: <NavLink to="/chat/1"><MessageOutlined /></NavLink>,
+        icon: (
+          <NavLink to="/chat/1">
+            <MessageOutlined />
+          </NavLink>
+        ),
         label: "Tin nhắn",
       },
     ],
@@ -109,7 +127,7 @@ const itemsPublic = [
     ),
     label: "Chủ đề câu hỏi",
   },
-]
+];
 
 const itemsAdmin = [
   {
@@ -147,25 +165,28 @@ const itemsAdmin = [
       </NavLink>
     ),
     label: "Quản lý admins",
-  }
-]
+  },
+];
 
-export const searchContext = createContext()
+export const searchContext = createContext();
 
 function LayoutDefault() {
-  const dispatch = useDispatch()
-  const isLogin = useSelector(state => state.userReducer.state);
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.userReducer.state);
+
   const location = useLocation();
 
   const [collapsed, setCollapsed] = useState(false);
   const [isExpanded, setExpended] = useState(false);
   const [openKeys, setOpenKeys] = useState(null);
+  const [dataSearch, setDataSearch] = useState(null);
+  const [data, setDataFather] = useState(null);
 
-  const [searchValue, setSearchValue] = useState(null)
-
-  const onSearch = (value, e, info) => {
-    setSearchValue(value)
-  }
+  const onSearch = (e) => {
+    const value = e.target.value
+    setDataSearch(value);
+    console.log(e.type,value)
+  };
 
   const onOpenChange = (keys) => {
     setOpenKeys(keys);
@@ -190,16 +211,21 @@ function LayoutDefault() {
   }, []);
 
   const handleCollapse = () => {
-    setExpended(false)
+    setExpended(false);
     setCollapsed(!collapsed);
     if (!collapsed) {
       setOpenKeys([]); // Đóng submenu
     }
   };
 
+  useEffect(() => {
+    search_suggest(dataSearch, data);
+  }, [dataSearch, data]);
+
+
   return (
     <>
-      <Layout className="layout-default" style={{ minHeight: '100vh' }}>
+      <Layout className="layout-default" style={{ minHeight: "100vh" }}>
         <Sider
           className="layout-default__sider"
           trigger={null}
@@ -210,13 +236,9 @@ function LayoutDefault() {
           onClick={handleClick}
         >
           <NavLink to="/">
-          <div className="layout-default__logo">
-              <img
-                className="aligh-center"
-                src="/images/logo.svg"
-                alt="logo"
-              />
-          </div>
+            <div className="layout-default__logo">
+              <img className="aligh-center" src="/images/logo.svg" alt="logo" />
+            </div>
           </NavLink>
           <Menu
             defaultSelectedKeys={["1"]}
@@ -229,22 +251,33 @@ function LayoutDefault() {
             items={isLogin ? items : itemsPublic}
           />
         </Sider>
-        <Layout style={{ marginLeft: collapsed ? 80 : 190 ,  transition: 'margin 0.3s ease-in-out'}}>
+        <Layout
+          style={{
+            marginLeft: collapsed ? 80 : 190,
+            transition: "margin 0.3s ease-in-out",
+          }}
+        >
           <Header
             className="layout-default__header"
             style={{
               padding: 0,
-              position: 'fixed',
+              position: "fixed",
               zIndex: 100,
               top: 0,
               left: 0,
-              width: '100vw',
-              overflow: 'auto'
+              width: "100vw",
+              overflow: "auto",
             }}
           >
             <Button
               type="text"
-              icon={collapsed ? <MenuUnfoldOutlined style={{fill: '#fff'}} /> : <MenuFoldOutlined />}
+              icon={
+                collapsed ? (
+                  <MenuUnfoldOutlined style={{ fill: "#fff" }} />
+                ) : (
+                  <MenuFoldOutlined />
+                )
+              }
               onClick={handleCollapse}
               style={{
                 marginLeft: collapsed ? 90 : 190,
@@ -253,15 +286,30 @@ function LayoutDefault() {
                 height: 64,
               }}
             />
-            {location.pathname === "/user/findFriend" && (<Search onSearch={onSearch} className="layout-default__search" placeholder="Nhập id hoặc tên người dùng" enterButton />)}
+            {location.pathname === "/user/findFriend" && (
+              <div className="layout-default__box--search">
+                <Search
+                  onChange={(e) => onSearch(e)}
+                  onSearch={onSearch}
+                  className="layout-default__search"
+                  placeholder="Nhập id hoặc tên người dùng"
+                  enterButton
+                />
+                <div className="layout-default__inner-suggest">
+                  <div className="layout-default__inner-list"></div>
+                </div>
+              </div>
+            )}
             <span className="layout-default__header--box">
               {isLogin ? (
-                  <NavLink onClick={() => dispatch(logout())} to="/">Đăng xuất</NavLink>
+                <NavLink onClick={() => dispatch(logout())} to="/">
+                  Đăng xuất
+                </NavLink>
               ) : (
                 <>
                   <NavLink to="/user/login">Đăng nhập</NavLink>
                   <NavLink to="/user/register">Đăng ký</NavLink>
-                </>              
+                </>
               )}
             </span>
           </Header>
@@ -274,8 +322,8 @@ function LayoutDefault() {
             }}
           >
             <main className="layout-default__main">
-              <searchContext.Provider value={searchValue}>
-                <Outlet />
+              <searchContext.Provider value={{ dataSearch, setDataFather }}>
+                <Outlet/>
               </searchContext.Provider>
             </main>
           </Content>

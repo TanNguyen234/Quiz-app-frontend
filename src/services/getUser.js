@@ -6,7 +6,6 @@ export const getUser = async (keyword) => {
     try {
         if(keyword) {
             path += `?keyword=${keyword}`
-            console.log(path)
         }
         const users = await auth(path, getCookie("token"));
         if(users.code !== 200) {

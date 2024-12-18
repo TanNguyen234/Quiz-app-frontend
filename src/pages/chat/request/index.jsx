@@ -1,5 +1,4 @@
 import { Avatar, Button, Col, Empty, message, Row, Typography } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import "./style.scss";
 import { useEffect, useState } from "react";
 import { getRequestFriend } from "../../../services/getUser";
@@ -85,9 +84,9 @@ function Request() {
             >
               <div className="user__avatar">
                 {user.avatar ? (
-                  <img src={user.avatar} alt={user.name} />
+                  <img src={user.avatar} alt={user.fullName} />
                 ) : (
-                  <Avatar size={64} icon={<UserOutlined />} />
+                  <Avatar size={64} src="/images/avatar-request.jpg" />
                 )}
               </div>
               <div className="user__content">
