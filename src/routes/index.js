@@ -20,6 +20,7 @@ import Friend from '../pages/chat/friend';
 import User from '../pages/chat/user';
 import Request from '../pages/chat/request';
 import Chat from '../pages/chat/chat';
+import Statistic from '../pages/statistics';
 
 export const routes = [
     {
@@ -61,6 +62,10 @@ export const routes = [
                     {
                         path: '/answers/check/:id',
                         element: <TransitionComponent><Answer/></TransitionComponent>
+                    },
+                    {
+                        path: '/exam/statistics',
+                        element: <TransitionComponent><Statistic /></TransitionComponent>
                     }
                 ]
             },

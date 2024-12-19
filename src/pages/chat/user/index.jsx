@@ -8,27 +8,52 @@ import AddUser from "./addUser";
 import { useSelector } from "react-redux";
 
 function User() {
-  const id = useSelector(state => state.userReducer.id)
+  const id = useSelector((state) => state.userReducer.id);
   const [data, setData] = useState([]);
-  const { dataSearch, setDataFather } = useContext(searchContext);
+  const { dataSearch } = useContext(searchContext);
   useEffect(() => {
     const fetchApi = async () => {
-      console.log(dataSearch)
       const users = dataSearch ? await getUser(dataSearch) : await getUser();
-      if(users) {
+      if (users) {
         setData(users);
-        setDataFather(users)
+        console.log(users);
       }
     };
     fetchApi();
   }, [dataSearch]);
+
+  const handleBtn = (friendList) => {
+    for (let i = 0; i < friendList.length; i++) {
+      if (friendList[i].user_id === id) {
+        return (
+          <Link to={`/chat/` + friendList[i].room_chat_id}>
+            <Button className="user__btn--info" color="primary" variant="solid">
+              Nhắn tin
+            </Button>
+          </Link>
+        );
+      }
+      if (i === friendList.length - 1) {
+        return <AddUser id={friendList[i]._id} />;
+      }
+    }
+  };
 
   return (
     <>
       {data.length > 0 ? (
         <Row className="user" gutter={[20, 20]}>
           {data.map((user) => (
-            <Col key={user._id} xxl={7} xl={8} lg={12} md={16} sm={20} xs={24} className="user__item">
+            <Col
+              key={user._id}
+              xxl={8}
+              xl={8}
+              lg={12}
+              md={16}
+              sm={20}
+              xs={24}
+              className="user__item"
+            >
               <div className="user__avatar">
                 {user.avatar ? (
                   <img src={user.avatar} alt={user.fullName} />
@@ -39,25 +64,24 @@ function User() {
               <div className="user__content">
                 <div className="user__name">{user.fullName}</div>
                 <div className="user__btn">
-                  {id in user.friendList ? <Button>friend</Button> : <></>}
-                  <AddUser id={user._id} />
-                  <Link to={`/user/info/${user._id}`}><Button className="user__btn--info">Xem thông tin</Button></Link>
+                  {handleBtn(user.friendList)}
+                  <Link to={`/user/info/${user._id}`}>
+                    <Button className="user__btn--info">Xem thông tin</Button>
+                  </Link>
                 </div>
               </div>
             </Col>
           ))}
         </Row>
       ) : (
-        <Empty image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+        <Empty
+          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
           imageStyle={{
             height: 60,
           }}
-          style={{ margin: "10px"}}
-          description={
-            <Typography.Text>
-              Không có dữ liệu
-            </Typography.Text>
-          }/>
+          style={{ margin: "10px" }}
+          description={<Typography.Text>Không có dữ liệu</Typography.Text>}
+        />
       )}
     </>
   );

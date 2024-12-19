@@ -23,8 +23,6 @@ import "./layoutDefault.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../actions/user";
 import Search from "antd/es/input/Search";
-import { useEffect } from "react";
-import search_suggest from "./search-suggest";
 
 const { Header, Content, Footer } = Layout;
 
@@ -46,7 +44,7 @@ const items = [
       {
         key: "1-2",
         icon: (
-          <NavLink to="/user/changePassword">
+          <NavLink to="/user/forgot-password">
             <AuditOutlined />
           </NavLink>
         ),
@@ -129,44 +127,44 @@ const itemsPublic = [
   },
 ];
 
-const itemsAdmin = [
-  {
-    key: "3",
-    icon: (
-      <NavLink to="/admin/topics">
-        <DiffOutlined />
-      </NavLink>
-    ),
-    label: "Quản lý chủ đề",
-  },
-  {
-    key: "4",
-    label: "Quản lý câu hỏi",
-    icon: (
-      <NavLink to="/admin/questions">
-        <QuestionOutlined />
-      </NavLink>
-    ),
-  },
-  {
-    key: "5",
-    icon: (
-      <NavLink to="/admin/users">
-        <UserSwitchOutlined />
-      </NavLink>
-    ),
-    label: "Quản lý users",
-  },
-  {
-    key: "6",
-    icon: (
-      <NavLink to="/admin/accounts">
-        <BookOutlined />
-      </NavLink>
-    ),
-    label: "Quản lý admins",
-  },
-];
+// const itemsAdmin = [
+//   {
+//     key: "3",
+//     icon: (
+//       <NavLink to="/admin/topics">
+//         <DiffOutlined />
+//       </NavLink>
+//     ),
+//     label: "Quản lý chủ đề",
+//   },
+//   {
+//     key: "4",
+//     label: "Quản lý câu hỏi",
+//     icon: (
+//       <NavLink to="/admin/questions">
+//         <QuestionOutlined />
+//       </NavLink>
+//     ),
+//   },
+//   {
+//     key: "5",
+//     icon: (
+//       <NavLink to="/admin/users">
+//         <UserSwitchOutlined />
+//       </NavLink>
+//     ),
+//     label: "Quản lý users",
+//   },
+//   {
+//     key: "6",
+//     icon: (
+//       <NavLink to="/admin/accounts">
+//         <BookOutlined />
+//       </NavLink>
+//     ),
+//     label: "Quản lý admins",
+//   },
+// ];
 
 export const searchContext = createContext();
 
@@ -180,12 +178,14 @@ function LayoutDefault() {
   const [isExpanded, setExpended] = useState(false);
   const [openKeys, setOpenKeys] = useState(null);
   const [dataSearch, setDataSearch] = useState(null);
-  const [data, setDataFather] = useState(null);
 
   const onSearch = (e) => {
-    const value = e.target.value
-    setDataSearch(value);
-    console.log(e.type,value)
+    if(e.type === 'change') {
+      const value = e.target.value
+      setDataSearch(value);
+    } else {
+      setDataSearch(e);
+    }
   };
 
   const onOpenChange = (keys) => {
@@ -217,11 +217,6 @@ function LayoutDefault() {
       setOpenKeys([]); // Đóng submenu
     }
   };
-
-  useEffect(() => {
-    search_suggest(dataSearch, data);
-  }, [dataSearch, data]);
-
 
   return (
     <>
@@ -322,7 +317,7 @@ function LayoutDefault() {
             }}
           >
             <main className="layout-default__main">
-              <searchContext.Provider value={{ dataSearch, setDataFather }}>
+              <searchContext.Provider value={{ dataSearch }}>
                 <Outlet/>
               </searchContext.Provider>
             </main>

@@ -51,7 +51,6 @@ function Chat() {
 
       if (params.id !== "1") {
         const checkRoomId = await getRoom(params.id);
-        console.log(checkRoomId);
         if (checkRoomId.length === 0) {
           navigate("/chat/1");
           return;

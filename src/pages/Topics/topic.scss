@@ -13,6 +13,13 @@
         color: $bg-2;
         margin-bottom: 10px;
     }
+    &:hover .topic__item:not(:hover) {
+      filter: blur(5px);
+    }
+    
+    .topic__item {
+      filter: none; /* Đảm bảo mặc định không bị làm mờ */
+    }
 }
 
 .loader {
