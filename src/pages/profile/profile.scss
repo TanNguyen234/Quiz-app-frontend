@@ -6,7 +6,7 @@ $borderWidth: 10px;
     justify-content: center;
     align-items: center;
     width: auto;
-    height: 500px;
+    height: auto;
 
     &__infor {
         padding: 20px 10px;
@@ -41,7 +41,7 @@ $borderWidth: 10px;
     }
     
     &__avatar {
-        width: 200px;
+        width: 100%;
         height: 201px;
         background: #1D1F20;
         position: relative;
@@ -51,9 +51,16 @@ $borderWidth: 10px;
         align-items: center;
         z-index: 2;
 
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         span {
             font-size: 100px;
             height: 100%;
+            width: 100%;
         }
 
         &:hover:after {
@@ -68,8 +75,8 @@ $borderWidth: 10px;
         transition: 0.6s;
         top: -5px;
         left: -5px;
-        height: 103%;
-        width: 105%;
+        height: 104%;
+        width: 102%;
         background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
         border-radius: 5px;
         z-index: -1;
