@@ -37,13 +37,17 @@ export const del = async (path) => {
     return result;
 }
 
-export const patch = async (path, options) => {
-    const response = await fetch(API_DOMAIN + path, {
-      method: "PATCH",
-      headers: {
+export const patch = async (path, options, token) => {
+    const headerParam = {
         accept: "application/json",
         "content-type": "application/json"
-      },
+    }
+    if (token) {
+        headerParam.Authorization = `Bearer ${token}`
+    }
+    const response = await fetch(API_DOMAIN + path, {
+      method: "PATCH",
+      headers: headerParam,
       body: JSON.stringify(options)
     })
     const result = await response.json()

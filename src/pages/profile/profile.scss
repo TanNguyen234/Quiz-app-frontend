@@ -8,6 +8,13 @@ $borderWidth: 10px;
     width: auto;
     height: auto;
 
+    &__group {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
     &__infor {
         padding: 20px 10px;
         padding: 10px;
@@ -55,6 +62,10 @@ $borderWidth: 10px;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            &:hover {
+                transform: scale(1.7);
+                transition: all 0.8s;
+            }
         }
 
         span {
@@ -66,13 +77,34 @@ $borderWidth: 10px;
         &:hover:after {
             display: inline-block;
         }
+
+        &--mini {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -25%;
+            right: calc(50% - 50px);
+            transform: translateX(50%, 50%);
+            z-index: 9999;
+            border: 5px solid $bg-2;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 50%;
+                &:hover {
+                    transform: scale(1);
+                    transition: all 0.8s;
+                }
+            }
+        }
     }
 
     &__avatar:after {
         content: '';
         display: none;
         position: absolute;
-        transition: 0.6s;
         top: -5px;
         left: -5px;
         height: 104%;
@@ -85,14 +117,44 @@ $borderWidth: 10px;
     }
 
     &__form {
-       display: flex;
-       justify-content: center;
-       align-items: center;
+       .ant-form-item {
+         margin-bottom: 15px !important;
+       }
     }
 
     &__achievement {
         min-height: 200px;
         background-color: $text;
         border-radius: 10px;
+    }
+    &__statistic {
+        height: 100px;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: 10px;
+        &--item {
+            margin-bottom: 30px;
+            p {
+                color: #fff
+            }
+        }
+    }
+    .ant-upload-select {
+        display: inline-block !important;
+        width: 30px !important;
+        height: 30px !important;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        svg {
+            fill: whitesmoke
+        }
+    }
+    .ant-upload-list-item-thumbnail {
+        display: none !important;
+    }
+    .ant-upload-list-item-container {
+        display: none !important;
     }
 }
