@@ -14,9 +14,6 @@ import {
   LineChartOutlined,
   InfoCircleOutlined,
   AuditOutlined,
-  UserSwitchOutlined,
-  QuestionOutlined,
-  DiffOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
 import "./layoutDefault.scss";

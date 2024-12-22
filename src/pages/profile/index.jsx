@@ -11,14 +11,15 @@ import {
   Tooltip,
   Upload,
 } from "antd";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import ImgCrop from "antd-img-crop";
 import { auth } from "../../untils/request";
 import { getCookie } from "../../helpers/cookie";
 import swal from "sweetalert";
 import dayjs from "dayjs";
 import { getAnswers } from "../../services/getAnswers";
 import { PlusOutlined } from "@ant-design/icons";
-import { changeInfo } from "../../services/changeInfo";
+import { changeFile, changeInfo } from "../../services/changeInfo";
 
 function Profile() {
   const [info, setInfo] = useState(null);
@@ -32,13 +33,13 @@ function Profile() {
 
   const onFinish = async (values) => {
     const formData = {};
-    if(values.fullName) {
-      formData['fullName'] = values.fullName;
+    if (values.fullName && (values.fullName !== info.fullName)) {
+      formData["fullName"] = values.fullName;
     }
-    if(values.email) {
-      formData['email'] = values.email;
+    if (values.email && (values.email !== info.email)) {
+      formData["email"] = values.email;
     }
-    if(Object.keys(formData).length === 0) {
+    if (Object.keys(formData).length === 0) {
       swal({
         title: "Thông báo!",
         text: "Bạn chưa thay đổi thông tin nào cả!",
@@ -48,34 +49,42 @@ function Profile() {
       setEdit(false);
       return;
     }
-    const state = await changeInfo(formData)
-    if(state) {
+    console.log(formData);
+    const state = await changeInfo(formData);
+    if (state) {
       swal({
         title: "Thông báo!",
-        text: "Bạn đã cập nhật ảnh đại diện thành công!",
+        text: "Bạn đã cập nhật thông tin thành công!",
         icon: "success",
         button: "ok!",
       });
+      fetchApi();
     } else {
       swal({
         title: "Thông báo!",
-        text: "Bạn đã cập nhật ảnh đại diện thất bại!",
+        text: "Bạn đã cập nhật thông tin thất bại!",
         icon: "error",
         button: "Đã hiểu!",
       });
+      form.resetFields();
     }
     setEdit(false);
   };
 
-  useEffect(() => {
-    const fetchApi = async () => {
+  const fetchApi = async () => {
+    try {
       const response = await auth("user/detail", getCookie("token"));
       if (response.code === 200) {
         setInfo(response.data);
       }
       const total = await getAnswers();
       setTotalTest(total.length);
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     fetchApi();
   }, []);
 
@@ -84,16 +93,21 @@ function Profile() {
       buttons: ["Không", "Có"],
     }).then((value) => {
       if (value) {
-        form.submit();
+        onFinish(form.getFieldsValue())
       }
     });
   };
+  const resetBtn = () => {
+    setEdit(false);
+    form.resetFields();
+  };
   //Avatar
-  const onChange = async ({ fileList: newFileList }) => {
-    const formData = {};
-    formData['avatar'] = newFileList[0];
-    const state = await changeInfo(formData)
-    if(state) {
+  const handleCustomRequest = async (options) => {
+    const { file } = options;
+    const formData = new FormData();
+    formData.append("avatar",file);
+    const state = await changeFile(formData);
+    if (state) {
       swal({
         title: "Thông báo!",
         text: "Bạn đã cập nhật ảnh đại diện thành công!",
@@ -109,13 +123,16 @@ function Profile() {
       });
     }
     setFileList([]);
+    fetchApi();
   };
 
-  const previewSentImage = useCallback((url) => {
-    const domain = process.env.REACT_APP_PATH || "http://localhost:3000" + url;
-    setPreviewImage(domain);
-    setPreviewOpen(true);
-  }, []);
+  const previewSentImage = (url) => {
+    if(info) {
+      const link = info.avatar ? url : process.env.REACT_APP_PATH + url
+      setPreviewImage(link);
+      setPreviewOpen(true);
+    }
+  };
   //End Avatar
 
   return (
@@ -147,15 +164,17 @@ function Profile() {
                   }
                 />
                 <Tooltip placement="topRight" title={"Cập nhật ảnh đại diện"}>
-                  <Upload
+                <ImgCrop rotationSlider showReset={true} aspect={3} aspectSlider={true} grid={true} modalTitle="Cập nhật ảnh đại diện">
+                <Upload
                     listType="picture-card"
                     fileList={fileList}
-                    onChange={onChange}
+                    customRequest={handleCustomRequest}
                     accept="image/*"
                     style={{ zIndex: 9999 }}
                   >
                     {fileList.length === 1 ? null : <PlusOutlined />}
                   </Upload>
+                </ImgCrop>
                 </Tooltip>
                 {previewImage && (
                   <Image
@@ -176,7 +195,11 @@ function Profile() {
                 form={form}
                 className="profile__form"
                 disabled={!edit}
-                onFinish={onFinish}
+                initialValues={{
+                  id: info.id,
+                  fullName: info.fullName,
+                  email: info.email,
+                }}
               >
                 <Form.Item name="id" label="id: " style={{ color: "white" }}>
                   <Input
@@ -185,13 +208,18 @@ function Profile() {
                     variant="borderless"
                     type="text"
                     disabled={true}
-                    defaultValue={info.id}
                   />
                 </Form.Item>
                 <Form.Item
                   name="fullName"
                   label="User Name: "
                   style={{ color: "white" }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập Tên hiển thị!",
+                    },
+                  ]}
                 >
                   <Input
                     placeholder="fullName"
@@ -199,13 +227,18 @@ function Profile() {
                     variant="borderless"
                     type="text"
                     disabled={!edit}
-                    defaultValue={info.fullName}
                   />
                 </Form.Item>
                 <Form.Item
                   name="email"
                   label="Email: "
                   style={{ color: "white" }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập email!",
+                    },
+                  ]}
                 >
                   <Input
                     className="profile__input"
@@ -213,7 +246,6 @@ function Profile() {
                     variant="borderless"
                     type="email"
                     disabled={!edit}
-                    defaultValue={info.email}
                   />
                 </Form.Item>
                 {edit ? (
@@ -221,16 +253,19 @@ function Profile() {
                     <Form.Item>
                       <Button
                         disabled={false}
-                        color="primary"
+                        type="primary"
                         variant="primary"
                         onClick={() => handleSubmit()}
+                        style={{ marginRight: 10 }}
+                        htmlType="submit"
                       >
                         Lưu thay đổi
                       </Button>
                       <Button
                         disabled={false}
-                        onClick={() => setEdit(false)}
+                        onClick={() => resetBtn()}
                         color="white"
+                        htmlType="reset"
                       >
                         Hủy
                       </Button>
@@ -243,7 +278,7 @@ function Profile() {
                       onClick={() => setEdit(true)}
                       color="white"
                     >
-                      Chỉnh sửa
+                      Cập nhật thông tin
                     </Button>
                   </Form.Item>
                 )}
